@@ -3,8 +3,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PetClinic.Data.Models;
+using PetClinic.Data.Repositories;
+using PetClinic.Data.Repositories.EntityFramework;
 
 namespace PetClinic
 {
@@ -20,7 +24,12 @@ namespace PetClinic
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            services.AddDbContextPool<PetClinicContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("PetClinicDb"));
+            });
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
