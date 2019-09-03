@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PetClinic.Data.Repositories
 {
     public interface IPatientRepository : IRepository<Patient>
     {
-        int GetCount();
+        Task<int> GetCountAsync();
     }
 }
