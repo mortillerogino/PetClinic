@@ -27,5 +27,14 @@ namespace PetClinic.Controllers
 
             return Ok(patients);
         }
+
+        [HttpGet("{id}")]
+        public IActionResult Get(Guid id)
+        {
+            var patient = _unitOfWork.PatientsRepository.GetById(id);
+
+            return Ok(patient);
+        }
+
     }
 }

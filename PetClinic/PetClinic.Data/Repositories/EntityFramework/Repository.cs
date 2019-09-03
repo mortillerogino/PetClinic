@@ -70,7 +70,6 @@ namespace PetClinic.Data.Repositories.EntityFramework
         public virtual void Insert(TEntity entity)
         {
             _dbSet.Add(entity);
-            //_context.Entry(entity).State = EntityState.Added;
         }
 
         public virtual void Update(TEntity entity)
