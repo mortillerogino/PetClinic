@@ -23,7 +23,7 @@ namespace PetClinic.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            List<Patient> patients = _unitOfWork.PatientsRepository.Get();
+            IEnumerable<Patient> patients = _unitOfWork.PatientsRepository.Get();
 
             return Ok(patients);
         }
