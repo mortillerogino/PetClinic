@@ -7,7 +7,8 @@ namespace PetClinic.Core.Models
 {
     public class Patient
     {
-        public int Id { get; set; }
+        [Key]
+        public Guid Id { get; set; }
 
         [Required]
         public string Name { get; set; }

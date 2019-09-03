@@ -14,6 +14,7 @@ namespace PetClinic.Data.Repositories.EntityFramework
         public UnitOfWork(PetClinicContext context)
         {
             _context = context;
+            context.Database.EnsureCreated();
         }
 
         private IPatientRepository _patientRepository;

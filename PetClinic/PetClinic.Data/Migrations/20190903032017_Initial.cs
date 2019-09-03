@@ -28,5 +28,7 @@ namespace PetClinic.Data.Migrations
             migrationBuilder.DropTable(
                 name: "Patients");
         }
+
+        
     }
 }
