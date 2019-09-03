@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PetClinic.Models;
+using PetClinic.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;

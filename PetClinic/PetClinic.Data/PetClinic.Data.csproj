@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PetClinic\PetClinic.csproj" />
+    <ProjectReference Include="..\PetClinic.Core\PetClinic.Core.csproj" />
   </ItemGroup>
 
 </Project>
