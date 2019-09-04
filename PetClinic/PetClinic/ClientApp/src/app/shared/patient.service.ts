@@ -12,7 +12,7 @@ export class PatientService {
   currentPatient: Patient;
 
   updatePatientForm = this.fb.group({
-    Name: [this.currentPatient == null ? '' : this.currentPatient.name, Validators.required]
+    Name: ['', Validators.required]
   })
 
   constructor(private http: HttpClient,
@@ -45,6 +45,13 @@ export class PatientService {
       Name: this.newPatientForm.value.Name
     }
     return this.http.post(this.baseUrl + 'api/Patient', body);
+  }
+
+  update(id: string) {
+    var body = {
+      Name: this.updatePatientForm.value.Name
+    }
+    return this.http.put(this.baseUrl + 'api/Patient/' + id, body)
   }
 
   delete(id: string) {
