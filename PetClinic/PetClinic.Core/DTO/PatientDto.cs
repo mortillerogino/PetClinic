@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace PetClinic.DTO
+namespace PetClinic.Core.DTO
 {
-    public class PatientDTO
+    public class PatientDto
     {
         public string Name { get; set; }
     }

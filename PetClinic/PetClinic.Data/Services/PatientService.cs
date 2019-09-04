@@ -1,8 +1,10 @@
-﻿using PetClinic.Core.Models;
+﻿using PetClinic.Core.DTO;
+using PetClinic.Core.Models;
 using PetClinic.Data.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PetClinic.Data.Services
 {
@@ -15,9 +17,18 @@ namespace PetClinic.Data.Services
             _unitOfWork = unitOfWork;
         }
 
-        public void Add()
+        public async Task<Patient> AddAsync(PatientDto patientDto)
         {
-            throw new NotImplementedException();
+            var newPatient = new Patient
+            {
+                Id = Guid.NewGuid(),
+                Name = patientDto.Name,
+                DateAdded = DateTime.Now
+            };
+
+            _unitOfWork.PatientsRepository.Insert(newPatient);
+            await _unitOfWork.CommitAsync();
+            return newPatient;
         }
 
         public IEnumerable<Patient> Get()

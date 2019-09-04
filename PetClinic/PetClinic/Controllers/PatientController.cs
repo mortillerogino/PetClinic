@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PetClinic.Core.DTO;
 using PetClinic.Core.Models;
 using PetClinic.Data.Repositories;
 using PetClinic.Data.Services;
-using PetClinic.DTO;
 
 namespace PetClinic.Controllers
 {
@@ -43,14 +43,20 @@ namespace PetClinic.Controllers
             return Ok(patient);
         }
 
-        //[HttpPost]
-        //public IActionResult Post(PatientDTO patientDTO)
-        //{
-        //    if (patientDTO != null)
-        //    {
+        [HttpPost]
+        public async Task<IActionResult> Post(PatientDto patientDTO)
+        {
+            try
+            {
+                var patient = await _patientService.AddAsync(patientDTO);
 
-        //    }
-        //}
+                return CreatedAtAction(nameof(Get), new { id = patient.Id }, patient);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
 
     }
 }

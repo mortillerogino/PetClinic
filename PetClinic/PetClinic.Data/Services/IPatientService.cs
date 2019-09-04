@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using PetClinic.Core.DTO;
 using PetClinic.Core.Models;
 
 namespace PetClinic.Data.Services
 {
     public interface IPatientService
     {
-        void Add();
+        Task<Patient> AddAsync(PatientDto patientDto);
         IEnumerable<Patient> Get();
         Patient GetById(Guid id);
     }
