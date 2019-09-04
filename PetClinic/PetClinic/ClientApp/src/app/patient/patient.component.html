@@ -7,6 +7,7 @@
         <th scope="col">Id</th>
         <th scope="col">Patient</th>
         <th scope="col">Date Added</th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
@@ -14,12 +15,9 @@
         <td>{{p.id}}</td>
         <td>{{p.name}}</td>
         <td>{{p.dateAdded | date: 'MMM dd, yyyy'}}</td>
+        <td><button class="btn btn-link red-text" (click)="onDelete(p.id, p.name)"><i class="fas fa-trash-alt"></i></button></td>
       </tr>
-      <!--<tr>
-        <td>Test</td>
-        <td>TestName</td>
-        <td>Testdate</td>
-      </tr>-->
     </tbody>
   </table>
 </div>
+

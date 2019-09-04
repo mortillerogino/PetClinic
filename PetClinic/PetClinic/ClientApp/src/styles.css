@@ -6,3 +6,7 @@
 #toast-container > div {
   opacity: 1;
 }
+
+.red-text {
+  color: #ff0000;
+}

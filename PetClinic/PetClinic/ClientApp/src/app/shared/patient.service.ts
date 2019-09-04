@@ -40,7 +40,10 @@ export class PatientService {
     var body = {
       Name: this.newPatientForm.value.Name
     }
-
     return this.http.post(this.baseUrl + 'api/Patient', body);
+  }
+
+  delete(id: string) {
+    return this.http.delete(this.baseUrl + 'api/Patient/' + id);
   }
 }
