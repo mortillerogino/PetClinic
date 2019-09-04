@@ -11,6 +11,10 @@ export class PatientService {
 
   currentPatient: Patient;
 
+  updatePatientForm = this.fb.group({
+    Name: [this.currentPatient == null ? '' : this.currentPatient.name, Validators.required]
+  })
+
   constructor(private http: HttpClient,
     @Inject('BASE_URL') private baseUrl: string,
     private fb: FormBuilder,

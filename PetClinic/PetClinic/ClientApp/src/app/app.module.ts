@@ -14,6 +14,7 @@ import { AddComponent } from './patient/add/add.component';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { EditComponent } from './patient/details/edit/edit.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ToastrModule } from 'ngx-toastr';
     HomeComponent,
     PatientComponent,
     DetailsComponent,
-    AddComponent
+    AddComponent,
+    EditComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -37,6 +39,7 @@ import { ToastrModule } from 'ngx-toastr';
       { path: 'patient', component: PatientComponent },
       { path: 'patient/details', component: DetailsComponent },
       { path: 'patient/add', component: AddComponent },
+      { path: 'patient/details/edit', component: EditComponent },
     ]),
   ],
   providers: [],

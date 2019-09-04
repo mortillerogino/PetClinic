@@ -1,10 +1,18 @@
-<p>
-  Id: {{this.service.currentPatient.id}}
-</p>
-<p>
-  Name: {{this.service.currentPatient.name}}
-</p>
-<p>
-  Date Added: {{this.service.currentPatient.dateAdded | date: 'MMM dd, yyyy'}}
-</p>
+<div class="row">
+  <div class="col-lg-6">
+    <p>
+      Id: {{this.service.currentPatient.id}}
+    </p>
+    <p>
+      Name: {{this.service.currentPatient.name}}
+    </p>
+    <p>
+      Date Added: {{this.service.currentPatient.dateAdded | date: 'MMM dd, yyyy'}}
+    </p>
+    <p>
+      <button class="btn btn-primary btn-block btn-lg" [routerLink]='["/patient/details/edit"]'><i class="fas fa-edit"></i></button>
+    </p>
+  </div>
+  <div class="col-lg-6"></div>
+</div>
 
