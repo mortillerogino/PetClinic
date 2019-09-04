@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PetClinic.Data.Models;
 using PetClinic.Data.Repositories;
 using PetClinic.Data.Repositories.EntityFramework;
+using PetClinic.Data.Services;
 
 namespace PetClinic
 {
@@ -30,6 +31,7 @@ namespace PetClinic
             });
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IPatientService, PatientService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
