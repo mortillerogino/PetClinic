@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Patient } from './models/patient';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,10 @@ export class PatientService {
 
   currentPatient: Patient;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private fb: FormBuilder) { }
+  constructor(private http: HttpClient,
+    @Inject('BASE_URL') private baseUrl: string,
+    private fb: FormBuilder,
+    private router: Router) { }
 
   newPatientForm = this.fb.group({
     Name: ['', Validators.required]
@@ -25,7 +29,7 @@ export class PatientService {
       .toPromise()
       .then((data: any) => {
         this.currentPatient = data;
-        console.log(data);
+        this.router.navigate(['patient/details']);
       },
         err => {
           console.error(err)
