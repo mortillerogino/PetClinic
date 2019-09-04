@@ -12,5 +12,6 @@ namespace PetClinic.Data.Services
         IEnumerable<Patient> Get();
         Patient GetById(Guid id);
         Task<Patient> RemoveAsync(Guid id);
+        Task<Patient> UpdateAsync(Guid id, PatientDto patientDto);
     }
 }

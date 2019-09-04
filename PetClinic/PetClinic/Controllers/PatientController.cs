@@ -70,6 +70,18 @@ namespace PetClinic.Controllers
             return Ok(patient);
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(Guid id, PatientDto patientDto)
+        {
+            var patient = await _patientService.UpdateAsync(id, patientDto);
+            if (patient == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(patient);
+        }
+
 
     }
 }

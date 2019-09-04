@@ -49,5 +49,16 @@ namespace PetClinic.Data.Services
 
             return patient;
         }
+
+        public async Task<Patient> UpdateAsync(Guid id, PatientDto patientDto)
+        {
+            var editedPatient = _unitOfWork.PatientsRepository.GetById(id);
+            editedPatient.Name = patientDto.Name;
+
+            _unitOfWork.PatientsRepository.Update(editedPatient);
+            await _unitOfWork.CommitAsync();
+
+            return editedPatient;
+        }
     }
 }
