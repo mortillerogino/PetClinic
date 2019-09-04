@@ -18,7 +18,6 @@ export class PatientComponent implements OnInit {
       .toPromise()
       .then((data: any) => {
         this.patients = data;
-        console.log(this.patients);
       },
         err => {
           console.error(err)

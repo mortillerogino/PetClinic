@@ -2,3 +2,7 @@
 .clickable {
   cursor: pointer;
 }
+
+#toast-container > div {
+  opacity: 1;
+}

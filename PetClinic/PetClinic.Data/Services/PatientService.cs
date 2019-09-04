@@ -40,5 +40,14 @@ namespace PetClinic.Data.Services
         {
             return _unitOfWork.PatientsRepository.GetById(id);
         }
+
+        public async Task<Patient> RemoveAsync(Guid id)
+        {
+            var patient = _unitOfWork.PatientsRepository.GetById(id);
+            _unitOfWork.PatientsRepository.Delete(id);
+            await _unitOfWork.CommitAsync();
+
+            return patient;
+        }
     }
 }
