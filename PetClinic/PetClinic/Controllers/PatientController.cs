@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PetClinic.Core.DTO;
 using PetClinic.Core.Models;
-using PetClinic.Data.Repositories;
-using PetClinic.Data.Services;
+using PetClinic.Data.Services.Interfaces;
 
 namespace PetClinic.Controllers
 {

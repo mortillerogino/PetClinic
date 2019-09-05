@@ -1,6 +1,7 @@
 ﻿using PetClinic.Core.DTO;
 using PetClinic.Core.Models;
 using PetClinic.Data.Repositories;
+using PetClinic.Data.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;

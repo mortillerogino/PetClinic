@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using PetClinic.Core.DTO;
 using PetClinic.Core.Models;
 
-namespace PetClinic.Data.Services
+namespace PetClinic.Data.Services.Interfaces
 {
     public interface IPatientService
     {

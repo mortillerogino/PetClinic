@@ -1,11 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PetClinic.Core.Models;
-using PetClinic.Data.Models;
-using PetClinic.Data.Repositories;
-using PetClinic.Data.Services;
+using PetClinic.Data.Services.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PetClinic.Data.Seed

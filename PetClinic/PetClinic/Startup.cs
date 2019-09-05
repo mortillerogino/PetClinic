@@ -10,6 +10,7 @@ using PetClinic.Data.Models;
 using PetClinic.Data.Repositories;
 using PetClinic.Data.Repositories.EntityFramework;
 using PetClinic.Data.Services;
+using PetClinic.Data.Services.Interfaces;
 
 namespace PetClinic
 {
