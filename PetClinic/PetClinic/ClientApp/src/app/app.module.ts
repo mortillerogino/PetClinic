@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { EditComponent } from './patient/details/edit/edit.component';
+import { VeterinarianComponent } from './veterinarian/veterinarian.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { EditComponent } from './patient/details/edit/edit.component';
     PatientComponent,
     DetailsComponent,
     AddComponent,
-    EditComponent
+    EditComponent,
+    VeterinarianComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -40,6 +42,7 @@ import { EditComponent } from './patient/details/edit/edit.component';
       { path: 'patient/details', component: DetailsComponent },
       { path: 'patient/add', component: AddComponent },
       { path: 'patient/details/edit', component: EditComponent },
+      { path: 'veterinarian', component: VeterinarianComponent },
     ]),
   ],
   providers: [],
