@@ -17,5 +17,6 @@ namespace PetClinic.Core.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DateAdded { get; set; }
 
+        public IEnumerable<Diagnosis> Diagnoses { get; set; }
     }
 }

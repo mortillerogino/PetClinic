@@ -15,5 +15,8 @@ namespace PetClinic.Data.Models
         }
 
         public DbSet<Patient> Patients { get; set; }
+        public DbSet<Veterinarian> Veterinarians { get; set; }
+        public DbSet<Diagnosis> Diagnoses { get; set; }
+        public DbSet<Specialization> Specializations { get; set; }
     }
 }

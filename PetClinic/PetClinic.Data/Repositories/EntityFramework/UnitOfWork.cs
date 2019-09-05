@@ -31,6 +31,49 @@ namespace PetClinic.Data.Repositories.EntityFramework
             }
         }
 
+        private IVeterinarianRepository _veterinarianRepository;
+        public IVeterinarianRepository VeterinarianRepository
+        {
+            get
+            {
+                if (_veterinarianRepository == null)
+                {
+                    _veterinarianRepository = new VeterinarianRepository(_context);
+                }
+
+                return _veterinarianRepository;
+            }
+        }
+
+        private IDiagnosisRepository _diagnosisRepository;
+        public IDiagnosisRepository DiagnosisRepository
+        {
+            get
+            {
+                if (_diagnosisRepository ==  null)
+                {
+                    _diagnosisRepository = new DiagnosisRepository(_context);
+                }
+
+                return _diagnosisRepository;
+            }
+        }
+
+        private ISpecializationRepository _specializationRepository;
+        public ISpecializationRepository SpecializationRepository
+        {
+            get
+            {
+                if (_specializationRepository == null)
+                {
+                    _specializationRepository = new SpecializationRepository(_context);
+                }
+
+                return _specializationRepository;
+            }
+        }
+
+
         public void Commit()
         {
             _context.SaveChanges();
