@@ -10,8 +10,8 @@ using PetClinic.Data.Models;
 namespace PetClinic.Data.Migrations
 {
     [DbContext(typeof(PetClinicContext))]
-    [Migration("20190905014425_AddedDiagnosisSystem")]
-    partial class AddedDiagnosisSystem
+    [Migration("20190905025950_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,9 +30,9 @@ namespace PetClinic.Data.Migrations
 
                     b.Property<string>("Notes");
 
-                    b.Property<Guid?>("PatientId");
+                    b.Property<Guid>("PatientId");
 
-                    b.Property<Guid?>("VeterinarianId");
+                    b.Property<Guid>("VeterinarianId");
 
                     b.HasKey("Id");
 
@@ -40,7 +40,7 @@ namespace PetClinic.Data.Migrations
 
                     b.HasIndex("VeterinarianId");
 
-                    b.ToTable("Diagnosis");
+                    b.ToTable("Diagnoses");
                 });
 
             modelBuilder.Entity("PetClinic.Core.Models.Patient", b =>
@@ -63,7 +63,8 @@ namespace PetClinic.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.Property<Guid?>("VeterinarianId");
 
@@ -71,7 +72,7 @@ namespace PetClinic.Data.Migrations
 
                     b.HasIndex("VeterinarianId");
 
-                    b.ToTable("Specialization");
+                    b.ToTable("Specializations");
                 });
 
             modelBuilder.Entity("PetClinic.Core.Models.Veterinarian", b =>
@@ -79,22 +80,25 @@ namespace PetClinic.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
-                    b.ToTable("Veterinarian");
+                    b.ToTable("Veterinarians");
                 });
 
             modelBuilder.Entity("PetClinic.Core.Models.Diagnosis", b =>
                 {
                     b.HasOne("PetClinic.Core.Models.Patient", "Patient")
                         .WithMany("Diagnoses")
-                        .HasForeignKey("PatientId");
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("PetClinic.Core.Models.Veterinarian", "Veterinarian")
                         .WithMany()
-                        .HasForeignKey("VeterinarianId");
+                        .HasForeignKey("VeterinarianId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("PetClinic.Core.Models.Specialization", b =>

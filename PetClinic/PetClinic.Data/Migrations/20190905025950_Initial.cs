@@ -3,94 +3,110 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PetClinic.Data.Migrations
 {
-    public partial class AddedDiagnosisSystem : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Veterinarian",
+                name: "Patients",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false),
+                    DateAdded = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Veterinarian", x => x.Id);
+                    table.PrimaryKey("PK_Patients", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Diagnosis",
+                name: "Veterinarians",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Veterinarians", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Diagnoses",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Notes = table.Column<string>(nullable: true),
                     Date = table.Column<DateTime>(nullable: false),
-                    PatientId = table.Column<Guid>(nullable: true),
-                    VeterinarianId = table.Column<Guid>(nullable: true)
+                    PatientId = table.Column<Guid>(nullable: false),
+                    VeterinarianId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Diagnosis", x => x.Id);
+                    table.PrimaryKey("PK_Diagnoses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Diagnosis_Patients_PatientId",
+                        name: "FK_Diagnoses_Patients_PatientId",
                         column: x => x.PatientId,
                         principalTable: "Patients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Diagnosis_Veterinarian_VeterinarianId",
+                        name: "FK_Diagnoses_Veterinarians_VeterinarianId",
                         column: x => x.VeterinarianId,
-                        principalTable: "Veterinarian",
+                        principalTable: "Veterinarians",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Specialization",
+                name: "Specializations",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
                     VeterinarianId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Specialization", x => x.Id);
+                    table.PrimaryKey("PK_Specializations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Specialization_Veterinarian_VeterinarianId",
+                        name: "FK_Specializations_Veterinarians_VeterinarianId",
                         column: x => x.VeterinarianId,
-                        principalTable: "Veterinarian",
+                        principalTable: "Veterinarians",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Diagnosis_PatientId",
-                table: "Diagnosis",
+                name: "IX_Diagnoses_PatientId",
+                table: "Diagnoses",
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Diagnosis_VeterinarianId",
-                table: "Diagnosis",
+                name: "IX_Diagnoses_VeterinarianId",
+                table: "Diagnoses",
                 column: "VeterinarianId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Specialization_VeterinarianId",
-                table: "Specialization",
+                name: "IX_Specializations_VeterinarianId",
+                table: "Specializations",
                 column: "VeterinarianId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Diagnosis");
+                name: "Diagnoses");
 
             migrationBuilder.DropTable(
-                name: "Specialization");
+                name: "Specializations");
 
             migrationBuilder.DropTable(
-                name: "Veterinarian");
+                name: "Patients");
+
+            migrationBuilder.DropTable(
+                name: "Veterinarians");
         }
     }
 }
