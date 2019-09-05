@@ -2,6 +2,7 @@
 using PetClinic.Core.Models;
 using PetClinic.Data.Services.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PetClinic.Data.Seed
@@ -19,7 +20,7 @@ namespace PetClinic.Data.Seed
         {
             var patientService = _services.GetRequiredService<IPatientService>();
 
-            var patientsCount = await patientService.GetCountAsync();
+            var patientsCount = patientService.GetCount();
             if (patientsCount > 0)
             {
                 return;
@@ -28,14 +29,41 @@ namespace PetClinic.Data.Seed
             {
                 var patients = new Patient[]
                 {
-                    new Patient { Id = Guid.NewGuid(), Name = "Tutu", DateAdded = DateTime.Parse("2019-09-01") },
-                    new Patient { Id = Guid.NewGuid(), Name = "Fifi", DateAdded = DateTime.Parse("2019-08-31") },
-                    new Patient { Id = Guid.NewGuid(), Name = "Brownie", DateAdded = DateTime.Parse("2019-08-30") },
+                    new Patient { Name = "Tutu" },
+                    new Patient { Name = "Fifi" },
+                    new Patient { Name = "Brownie" },
                 };
 
                 await patientService.AddMultipleAsync(patients);
 
             }
+
+        }
+
+        public async Task SeedDummyVets()
+        {
+            var specService = _services.GetRequiredService<ISpecializationService>();
+            var vetService = _services.GetRequiredService<IVeterinarianService>();
+            var fieldService = _services.GetRequiredService<IFieldService>();
+
+            bool seeded = vetService.GetCount() > 0;
+
+            if (seeded)
+            {
+                return;
+            }
+
+            var generalHeathField = await fieldService.AddAsync(new Field { Name = "General Health" });
+            var surgeryField = await fieldService.AddAsync(new Field { Name = "Surgery" });
+
+            var vetMichael = await vetService.AddAsync(new Veterinarian { Name = "Michael Brown" });
+            var vetLiza = await vetService.AddAsync(new Veterinarian { Name = "Liza Gomez" });
+
+            await specService.AddAsync(vetMichael, generalHeathField);
+            await specService.AddAsync(vetMichael, surgeryField);
+            await specService.AddAsync(vetLiza, surgeryField);
+
+
 
         }
 

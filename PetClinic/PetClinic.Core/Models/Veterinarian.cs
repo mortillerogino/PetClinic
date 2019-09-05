@@ -13,6 +13,8 @@ namespace PetClinic.Core.Models
         [Required]
         public string Name { get; set; }
 
-        public IEnumerable<Specialization> Specializations { get; set; }
+        public ICollection<Specialization> Specializations { get; set; }
+        public ICollection<Diagnosis> Diagnoses { get; set; }
+        
     }
 }

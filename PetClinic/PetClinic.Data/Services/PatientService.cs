@@ -24,7 +24,7 @@ namespace PetClinic.Data.Services
             {
                 Id = Guid.NewGuid(),
                 Name = patientDto.Name,
-                DateAdded = DateTime.Now
+                DateAdded = DateTime.UtcNow
             };
 
             _unitOfWork.PatientsRepository.Insert(newPatient);
@@ -42,9 +42,9 @@ namespace PetClinic.Data.Services
             return _unitOfWork.PatientsRepository.GetById(id);
         }
 
-        public async Task<int> GetCountAsync()
+        public int GetCount()
         {
-            return await _unitOfWork.PatientsRepository.GetCountAsync();
+            return _unitOfWork.PatientsRepository.GetCount();
         }
 
         public async Task<Patient> RemoveAsync(Guid id)
@@ -71,6 +71,8 @@ namespace PetClinic.Data.Services
         {
             foreach (Patient p in patients)
             {
+                p.Id = Guid.NewGuid();
+                p.DateAdded = DateTime.UtcNow;
                 _unitOfWork.PatientsRepository.Insert(p);
             }
 

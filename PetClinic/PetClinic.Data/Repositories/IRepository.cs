@@ -28,5 +28,7 @@ namespace PetClinic.Data.Repositories
         void Update(TEntity entity);
 
         void Delete(object id);
+
+        int GetCount();
     }
 }

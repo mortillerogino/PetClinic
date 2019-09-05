@@ -8,7 +8,7 @@ namespace PetClinic.Data.Services.Interfaces
 {
     public interface IPatientService
     {
-        Task<int> GetCountAsync();
+        int GetCount();
         Task<Patient> AddAsync(PatientDto patientDto);
 
         Task AddMultipleAsync(IEnumerable<Patient> patients);

@@ -11,6 +11,7 @@ namespace PetClinic.Data.Repositories
         IVeterinarianRepository VeterinarianRepository { get; }
         IDiagnosisRepository DiagnosisRepository { get; }
         ISpecializationRepository SpecializationRepository { get; }
+        IFieldRepository FieldRepository { get; }
 
         void Commit();
 

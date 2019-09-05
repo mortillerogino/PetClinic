@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PetClinic.Data.Repositories
+namespace PetClinic.Data.Services.Interfaces
 {
-    public interface IPatientRepository : IRepository<Patient>
+    public interface IFieldService
     {
-
+        Task<Field> AddAsync(Field field);
     }
 }

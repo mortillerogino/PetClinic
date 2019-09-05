@@ -26,7 +26,8 @@ namespace PetClinic.Data.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<string>("Notes");
+                    b.Property<string>("Notes")
+                        .IsRequired();
 
                     b.Property<Guid>("PatientId");
 
@@ -38,7 +39,20 @@ namespace PetClinic.Data.Migrations
 
                     b.HasIndex("VeterinarianId");
 
-                    b.ToTable("Diagnoses");
+                    b.ToTable("Diagnosis");
+                });
+
+            modelBuilder.Entity("PetClinic.Core.Models.Field", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Field");
                 });
 
             modelBuilder.Entity("PetClinic.Core.Models.Patient", b =>
@@ -53,7 +67,7 @@ namespace PetClinic.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Patients");
+                    b.ToTable("Patient");
                 });
 
             modelBuilder.Entity("PetClinic.Core.Models.Specialization", b =>
@@ -61,16 +75,17 @@ namespace PetClinic.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<Guid?>("FieldId");
 
                     b.Property<Guid?>("VeterinarianId");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FieldId");
+
                     b.HasIndex("VeterinarianId");
 
-                    b.ToTable("Specializations");
+                    b.ToTable("Specialization");
                 });
 
             modelBuilder.Entity("PetClinic.Core.Models.Veterinarian", b =>
@@ -83,7 +98,7 @@ namespace PetClinic.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Veterinarians");
+                    b.ToTable("Veterinarian");
                 });
 
             modelBuilder.Entity("PetClinic.Core.Models.Diagnosis", b =>
@@ -94,14 +109,18 @@ namespace PetClinic.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("PetClinic.Core.Models.Veterinarian", "Veterinarian")
-                        .WithMany()
+                        .WithMany("Diagnoses")
                         .HasForeignKey("VeterinarianId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("PetClinic.Core.Models.Specialization", b =>
                 {
-                    b.HasOne("PetClinic.Core.Models.Veterinarian")
+                    b.HasOne("PetClinic.Core.Models.Field", "Field")
+                        .WithMany("Specializations")
+                        .HasForeignKey("FieldId");
+
+                    b.HasOne("PetClinic.Core.Models.Veterinarian", "Veterinarian")
                         .WithMany("Specializations")
                         .HasForeignKey("VeterinarianId");
                 });

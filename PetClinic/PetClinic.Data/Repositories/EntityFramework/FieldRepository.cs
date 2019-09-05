@@ -3,14 +3,13 @@ using PetClinic.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PetClinic.Data.Repositories.EntityFramework
 {
-    public class PatientRepository : Repository<Patient>, IPatientRepository
+    public class FieldRepository : Repository<Field>, IFieldRepository
     {
-        public PatientRepository(DbContext dbContext) 
-            :base(dbContext)
+        public FieldRepository(DbContext dbContext)
+            : base(dbContext)
         {
 
         }

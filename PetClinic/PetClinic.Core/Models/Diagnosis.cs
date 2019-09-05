@@ -9,15 +9,14 @@ namespace PetClinic.Core.Models
     {
         [Key]
         public Guid Id { get; set; }
+        [Required]
         public string Notes { get; set; }
-
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 
         [Required]
         public Patient Patient { get; set; }
-
         [Required]
         public Veterinarian Veterinarian { get; set; }
     }

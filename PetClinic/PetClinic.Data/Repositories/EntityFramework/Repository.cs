@@ -87,5 +87,10 @@ namespace PetClinic.Data.Repositories.EntityFramework
             }
             _dbSet.Remove(entityToDelete);
         }
+
+        public int GetCount()
+        {
+            return _dbSet.Count();
+        }
     }
 }

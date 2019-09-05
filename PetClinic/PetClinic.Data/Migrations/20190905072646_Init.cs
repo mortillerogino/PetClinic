@@ -3,12 +3,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PetClinic.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Patients",
+                name: "Field",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Field", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Patient",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -17,11 +29,11 @@ namespace PetClinic.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Patients", x => x.Id);
+                    table.PrimaryKey("PK_Patient", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Veterinarians",
+                name: "Veterinarian",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
@@ -29,84 +41,98 @@ namespace PetClinic.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Veterinarians", x => x.Id);
+                    table.PrimaryKey("PK_Veterinarian", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Diagnoses",
+                name: "Diagnosis",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Notes = table.Column<string>(nullable: true),
+                    Notes = table.Column<string>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     PatientId = table.Column<Guid>(nullable: false),
                     VeterinarianId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Diagnoses", x => x.Id);
+                    table.PrimaryKey("PK_Diagnosis", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Diagnoses_Patients_PatientId",
+                        name: "FK_Diagnosis_Patient_PatientId",
                         column: x => x.PatientId,
-                        principalTable: "Patients",
+                        principalTable: "Patient",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Diagnoses_Veterinarians_VeterinarianId",
+                        name: "FK_Diagnosis_Veterinarian_VeterinarianId",
                         column: x => x.VeterinarianId,
-                        principalTable: "Veterinarians",
+                        principalTable: "Veterinarian",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Specializations",
+                name: "Specialization",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    VeterinarianId = table.Column<Guid>(nullable: true)
+                    VeterinarianId = table.Column<Guid>(nullable: true),
+                    FieldId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Specializations", x => x.Id);
+                    table.PrimaryKey("PK_Specialization", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Specializations_Veterinarians_VeterinarianId",
+                        name: "FK_Specialization_Field_FieldId",
+                        column: x => x.FieldId,
+                        principalTable: "Field",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Specialization_Veterinarian_VeterinarianId",
                         column: x => x.VeterinarianId,
-                        principalTable: "Veterinarians",
+                        principalTable: "Veterinarian",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Diagnoses_PatientId",
-                table: "Diagnoses",
+                name: "IX_Diagnosis_PatientId",
+                table: "Diagnosis",
                 column: "PatientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Diagnoses_VeterinarianId",
-                table: "Diagnoses",
+                name: "IX_Diagnosis_VeterinarianId",
+                table: "Diagnosis",
                 column: "VeterinarianId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Specializations_VeterinarianId",
-                table: "Specializations",
+                name: "IX_Specialization_FieldId",
+                table: "Specialization",
+                column: "FieldId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Specialization_VeterinarianId",
+                table: "Specialization",
                 column: "VeterinarianId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Diagnoses");
+                name: "Diagnosis");
 
             migrationBuilder.DropTable(
-                name: "Specializations");
+                name: "Specialization");
 
             migrationBuilder.DropTable(
-                name: "Patients");
+                name: "Patient");
 
             migrationBuilder.DropTable(
-                name: "Veterinarians");
+                name: "Field");
+
+            migrationBuilder.DropTable(
+                name: "Veterinarian");
         }
     }
 }

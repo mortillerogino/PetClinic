@@ -33,6 +33,9 @@ namespace PetClinic
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<ISpecializationService, SpecializationService>();
+            services.AddScoped<IVeterinarianService, VeterinarianService>();
+            services.AddScoped<IFieldService, FieldService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

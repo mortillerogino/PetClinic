@@ -2,12 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PetClinic.Data.Repositories
 {
-    public interface IPatientRepository : IRepository<Patient>
+    public interface IFieldRepository : IRepository<Field>
     {
-
     }
 }

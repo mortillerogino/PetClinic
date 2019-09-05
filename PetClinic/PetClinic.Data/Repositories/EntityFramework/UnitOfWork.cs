@@ -73,6 +73,20 @@ namespace PetClinic.Data.Repositories.EntityFramework
             }
         }
 
+        private IFieldRepository _fieldRepository;
+        public IFieldRepository FieldRepository
+        {
+            get
+            {
+                if (_fieldRepository == null)
+                {
+                    _fieldRepository = new FieldRepository(_context);
+                }
+
+                return _fieldRepository;
+            }
+        }
+
 
         public void Commit()
         {
@@ -83,7 +97,6 @@ namespace PetClinic.Data.Repositories.EntityFramework
         {
             return await _context.SaveChangesAsync();
         }
-
 
         public void Dispose()
         {
