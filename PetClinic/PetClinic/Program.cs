@@ -15,7 +15,7 @@ namespace PetClinic
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var host = CreateWebHostBuilder(args).Build();
 
@@ -25,8 +25,8 @@ namespace PetClinic
 
                 try
                 {
-                    var uOW = services.GetRequiredService<IUnitOfWork>();
-                    DbInitializer.Initialize(uOW);
+                    var seeder = new DummySeeder(services);
+                    await seeder.SeedDummyPatients();
                 }
                 catch (Exception ex)
                 {
@@ -34,7 +34,7 @@ namespace PetClinic
                 }
             }
 
-            host.Run();
+            await host.RunAsync();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

@@ -1,6 +1,8 @@
-﻿using PetClinic.Core.Models;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PetClinic.Core.Models;
 using PetClinic.Data.Models;
 using PetClinic.Data.Repositories;
+using PetClinic.Data.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,12 +10,21 @@ using System.Threading.Tasks;
 
 namespace PetClinic.Data.Seed
 {
-    public static class DbInitializer
+    public class DummySeeder
     {
-        public static void Initialize(IUnitOfWork unitOfWork)
+        private readonly IServiceProvider _services;
+
+        public DummySeeder(IServiceProvider services)
         {
-            var patientsCount = unitOfWork.PatientsRepository.GetCountAsync();
-            if (patientsCount.Result > 0)
+            _services = services;
+        }
+
+        public async Task SeedDummyPatients()
+        {
+            var patientService = _services.GetRequiredService<IPatientService>();
+
+            var patientsCount = await patientService.GetCountAsync();
+            if (patientsCount > 0)
             {
                 return;
             }
@@ -26,15 +37,12 @@ namespace PetClinic.Data.Seed
                     new Patient { Id = Guid.NewGuid(), Name = "Brownie", DateAdded = DateTime.Parse("2019-08-30") },
                 };
 
-                foreach (Patient p in patients)
-                {
-                    unitOfWork.PatientsRepository.Insert(p);
+                await patientService.AddMultipleAsync(patients);
 
-                }
-
-                unitOfWork.Commit();
             }
 
         }
+
+
     }
 }

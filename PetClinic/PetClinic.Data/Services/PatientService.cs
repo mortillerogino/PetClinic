@@ -41,6 +41,11 @@ namespace PetClinic.Data.Services
             return _unitOfWork.PatientsRepository.GetById(id);
         }
 
+        public async Task<int> GetCountAsync()
+        {
+            return await _unitOfWork.PatientsRepository.GetCountAsync();
+        }
+
         public async Task<Patient> RemoveAsync(Guid id)
         {
             var patient = _unitOfWork.PatientsRepository.GetById(id);
@@ -59,6 +64,16 @@ namespace PetClinic.Data.Services
             await _unitOfWork.CommitAsync();
 
             return editedPatient;
+        }
+
+        public async Task AddMultipleAsync(IEnumerable<Patient> patients)
+        {
+            foreach (Patient p in patients)
+            {
+                _unitOfWork.PatientsRepository.Insert(p);
+            }
+
+            await _unitOfWork.CommitAsync();
         }
     }
 }
