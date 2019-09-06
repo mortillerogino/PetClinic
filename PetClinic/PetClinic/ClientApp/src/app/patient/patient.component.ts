@@ -12,18 +12,13 @@ export class PatientComponent implements OnInit {
   patients:any = [];
   isDelete: boolean = false;
   searchString: string;
+  nameAsc: boolean;
+  dateAsc: boolean;
 
   constructor(private service: PatientService, private toastr: ToastrService) { }
 
   ngOnInit() {
-    this.service.getPatients()
-      .toPromise()
-      .then((data: any) => {
-        this.patients = data;
-      },
-        err => {
-          console.error(err)
-        });
+    this.sort("", "");
   }
 
   onDetailsClick(event, id) {
@@ -34,16 +29,59 @@ export class PatientComponent implements OnInit {
     this.isDelete = false;
   }
 
-onSearch(search: string) {
-  this.service.searchPatient(search)
-    .toPromise()
-    .then((data: any) => {
-      this.patients = data;
-    },
-      err => {
-        console.error(err)
-      });
-}
+  sort(search: string, sort: string) {
+    this.service.searchPatient(search, sort)
+      .toPromise()
+      .then((data: any) => {
+        this.patients = data;
+        if (sort === "") {
+          this.nameAsc = true;
+        }
+      },
+        err => {
+          console.error(err)
+        });
+  }
+
+  onSearch(search: string) {
+    this.sort(search, "");
+  }
+
+  onSortName() {
+    let sort = "patient_desc";
+    if (this.nameAsc === true) {
+      this.nameAsc = false;
+    }
+    else {
+      sort = ""
+      this.nameAsc = true;
+    }
+
+    let search = "";
+    if (this.searchString) {
+      search = this.searchString;
+    }
+
+    this.sort(search, sort);
+  }
+
+  onSortDate() {
+    let sort = "date_desc";
+    if (this.dateAsc === true) {
+      this.dateAsc = false;
+    }
+    else {
+      sort = "date_asc"
+      this.dateAsc = true;
+    }
+
+    let search = "";
+    if (this.searchString) {
+      search = this.searchString;
+    }
+
+    this.sort(search, sort);
+  }
 
   onDelete(id, name) {
     this.isDelete = true;

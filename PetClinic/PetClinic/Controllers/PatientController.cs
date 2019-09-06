@@ -22,7 +22,7 @@ namespace PetClinic.Controllers
         [HttpGet]
         public IActionResult Get(string searchString = null, string sortOrder = null)
         {
-            var patients = _patientService.Get(searchString);
+            var patients = _patientService.Get(searchString, sortOrder);
 
             return Ok(patients);
         }
