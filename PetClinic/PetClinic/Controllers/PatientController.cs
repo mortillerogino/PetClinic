@@ -20,11 +20,18 @@ namespace PetClinic.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get(string searchString = null, string sortOrder = null)
+        public async Task<IActionResult> Get(string searchString = null, string sortOrder = null, int pageIndex = 1, int pageSize = 10)
         {
-            var patients = _patientService.Get(searchString, sortOrder);
+            var patients = await _patientService.GetPaginatedListAsync(searchString, sortOrder, pageIndex, pageSize);
 
-            return Ok(patients);
+            var patientsDto = new PaginatedPatientsDto
+            {
+                HasPreviousPage = patients.HasPreviousPage,
+                HasNextPage = patients.HasNextPage,
+                Patients = patients
+            };
+
+            return Ok(patientsDto);
         }
 
         [HttpGet("{id}")]

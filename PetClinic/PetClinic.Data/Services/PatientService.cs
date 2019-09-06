@@ -2,12 +2,11 @@
 using PetClinic.Core.Models;
 using PetClinic.Data.Repositories;
 using PetClinic.Data.Services.Interfaces;
+using PetClinic.Data.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace PetClinic.Data.Services
@@ -35,12 +34,12 @@ namespace PetClinic.Data.Services
             return newPatient;
         }
 
-        public IEnumerable<Patient> Get(string searchString = null, string sortOrder = null)
+        public async Task<PaginatedList<Patient>> GetPaginatedListAsync(string searchString = null, string sortOrder = null, int pageIndex = 1, int pageSize = 10)
         {
             Expression<Func<Patient, bool>> searchFunction = GetSearchFunction(searchString);
             Func<IQueryable<Patient>, IOrderedQueryable<Patient>> sortFunction = GetSortFunction(sortOrder);
 
-            List<Patient> patients = _unitOfWork.PatientsRepository.Get(searchFunction, sortFunction);
+            PaginatedList<Patient> patients = await _unitOfWork.PatientsRepository.GetPaginatedList(searchFunction, sortFunction, pageIndex, pageSize);
 
             return patients;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using PetClinic.Core.DTO;
 using PetClinic.Core.Models;
+using PetClinic.Data.Utilities;
 
 namespace PetClinic.Data.Services.Interfaces
 {
@@ -12,7 +13,7 @@ namespace PetClinic.Data.Services.Interfaces
         Task<Patient> AddAsync(PatientDto patientDto);
 
         Task AddMultipleAsync(IEnumerable<Patient> patients);
-        IEnumerable<Patient> Get(string searchString = null, string sortOrder = null);
+        Task<PaginatedList<Patient>> GetPaginatedListAsync(string searchString = null, string sortOrder = null, int pageIndex = 1, int pageSize = 10);
         Patient GetById(Guid id);
         Task<Patient> RemoveAsync(Guid id);
         Task<Patient> UpdateAsync(Guid id, PatientDto patientDto);

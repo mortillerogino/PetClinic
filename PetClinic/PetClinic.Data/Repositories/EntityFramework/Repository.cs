@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PetClinic.Data.Utilities;
+using PetClinic.Data.Utilities.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PetClinic.Data.Repositories.EntityFramework
 {
@@ -17,6 +20,29 @@ namespace PetClinic.Data.Repositories.EntityFramework
             _context = context;
             _dbSet = context.Set<TEntity>();
         }
+
+        public async Task<PaginatedList<TEntity>> GetPaginatedList(
+            Expression<Func<TEntity, bool>> filter = null, 
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, 
+            int pageIndex = 1, 
+            int pageSize = 10, 
+            params Expression<Func<TEntity, object>>[] includes)
+        {
+            IQueryable<TEntity> query = _dbSet;
+
+            foreach (Expression<Func<TEntity, object>> include in includes)
+                query = query.Include(include);
+
+            if (filter != null)
+                query = query.Where(filter);
+
+            if (orderBy != null)
+                query = orderBy(query);
+
+            return await EfPaginatedList<TEntity>.CreateAsync(query, pageIndex, pageSize);
+        }
+
+
 
         public virtual List<TEntity> Get(
             Expression<Func<TEntity, bool>> filter = null,
@@ -92,5 +118,7 @@ namespace PetClinic.Data.Repositories.EntityFramework
         {
             return _dbSet.Count();
         }
+
+        
     }
 }
