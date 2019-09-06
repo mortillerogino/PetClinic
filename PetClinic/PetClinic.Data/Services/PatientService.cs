@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace PetClinic.Data.Services
@@ -41,7 +42,7 @@ namespace PetClinic.Data.Services
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                searchFunction = a => a.Name == searchString;
+                searchFunction = a => a.Name.Contains(searchString);
             }
 
             patients = _unitOfWork.PatientsRepository.Get(searchFunction);

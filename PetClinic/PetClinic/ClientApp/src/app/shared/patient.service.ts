@@ -28,6 +28,10 @@ export class PatientService {
     return this.http.get<Patient[]>(this.baseUrl + 'api/Patient');
   }
 
+  searchPatient(searchString: string) {
+    return this.http.get<Patient[]>(this.baseUrl + 'api/Patient?searchString=' + searchString);
+  }
+
   getPatient(id: string) {
     this.http.get<Patient>(this.baseUrl + 'api/Patient/' + id)
       .toPromise()

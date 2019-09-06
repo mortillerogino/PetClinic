@@ -11,6 +11,7 @@ export class PatientComponent implements OnInit {
 
   patients:any = [];
   isDelete: boolean = false;
+  searchString: string;
 
   constructor(private service: PatientService, private toastr: ToastrService) { }
 
@@ -32,6 +33,17 @@ export class PatientComponent implements OnInit {
     
     this.isDelete = false;
   }
+
+onSearch(search: string) {
+  this.service.searchPatient(search)
+    .toPromise()
+    .then((data: any) => {
+      this.patients = data;
+    },
+      err => {
+        console.error(err)
+      });
+}
 
   onDelete(id, name) {
     this.isDelete = true;
