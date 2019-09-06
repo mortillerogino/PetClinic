@@ -70,6 +70,7 @@ export class PatientComponent implements OnInit {
 
 
   onSearch(search: string) {
+    this.pageIndex = 1;
     this.sort(search, "");
   }
 
@@ -88,6 +89,7 @@ export class PatientComponent implements OnInit {
       search = this.searchString;
     }
 
+    this.pageIndex = 1;
     this.sort(search, sort);
   }
 
@@ -106,6 +108,7 @@ export class PatientComponent implements OnInit {
       search = this.searchString;
     }
 
+    this.pageIndex = 1;
     this.sort(search, sort);
   }
 
