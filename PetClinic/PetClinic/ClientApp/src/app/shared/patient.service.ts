@@ -28,8 +28,8 @@ export class PatientService {
     return this.http.get<Patient[]>(this.baseUrl + 'api/Patient');
   }
 
-  searchPatient(searchString: string, sortString: string) {
-    return this.http.get<Patient[]>(this.baseUrl + 'api/Patient?searchString=' + searchString + '&sortOrder=' + sortString);
+  searchPatient(searchString: string, sortString: string, pageIndex: number, pageSize: number) {
+    return this.http.get<Patient[]>(this.baseUrl + 'api/Patient?searchString=' + searchString + '&sortOrder=' + sortString + '&pageIndex=' + pageIndex + '&pageSize=' + pageSize);
   }
 
   getPatient(id: string) {

@@ -14,6 +14,11 @@ export class PatientComponent implements OnInit {
   searchString: string;
   nameAsc: boolean;
   dateAsc: boolean;
+  pageIndex: number = 1;
+  pageSize: number = 3;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+  lastSort: string;
 
   constructor(private service: PatientService, private toastr: ToastrService) { }
 
@@ -30,18 +35,39 @@ export class PatientComponent implements OnInit {
   }
 
   sort(search: string, sort: string) {
-    this.service.searchPatient(search, sort)
+    this.service.searchPatient(search, sort, this.pageIndex, this.pageSize)
       .toPromise()
       .then((data: any) => {
-        this.patients = data;
+        this.patients = data.patients;
+        this.hasNextPage = data.hasNextPage;
+        this.hasPrevPage = data.hasPreviousPage;
         if (sort === "") {
           this.nameAsc = true;
         }
+        this.lastSort = sort;
       },
         err => {
           console.error(err)
         });
   }
+
+  onPageChange(step: number) {
+    this.pageIndex += step;
+
+    let search = "";
+    if (this.searchString) {
+      search = this.searchString;
+    }
+
+    let sort = "";
+    if (this.lastSort) {
+      sort = this.lastSort;
+    }
+
+    this.sort(search, sort);
+  }
+
+
 
   onSearch(search: string) {
     this.sort(search, "");

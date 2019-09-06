@@ -1,4 +1,4 @@
-<h3 class="header-label">Patients</h3>
+<h3 class="header-label mb-2">PATIENTS</h3>
 <button type="button" class="btn btn-primary mt-0 mb-2 float-left" [routerLink]='["/patient/add"]'><i class="fas fa-user-plus"></i> ADD PATIENT</button>
 <form class="form-inline float-right" (submit)="onSearch(searchString)">
   <input type="text" class="form-control mr-sm-2" id="inlineFormInputName2" placeholder="Patient Name" [(ngModel)]="searchString" name="search" />
@@ -26,4 +26,6 @@
     </tbody>
   </table>
 </div>
+<button class="btn btn-primary mr-1" [disabled]="!hasPrevPage" (click)="onPageChange(-1)" ><i class="fas fa-step-backward"></i> BACK</button>
+<button class="btn btn-primary ml-1" [disabled]="!hasNextPage" (click)="onPageChange(1)">NEXT <i class="fas fa-step-forward"></i></button>
 
