@@ -37,17 +37,46 @@ namespace PetClinic.Data.Services
 
         public IEnumerable<Patient> Get(string searchString = null, string sortOrder = null)
         {
-            List<Patient> patients;
+            Expression<Func<Patient, bool>> searchFunction = GetSearchFunction(searchString);
+            Func<IQueryable<Patient>, IOrderedQueryable<Patient>> sortFunction = GetSortFunction(sortOrder);
+
+            List<Patient> patients = _unitOfWork.PatientsRepository.Get(searchFunction, sortFunction);
+
+            return patients;
+        }
+
+        private static Expression<Func<Patient, bool>> GetSearchFunction(string searchString = null)
+        {
             Expression<Func<Patient, bool>> searchFunction = null;
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                searchFunction = a => a.Name.Contains(searchString);
+                searchFunction = p => p.Name.Contains(searchString);
             }
 
-            patients = _unitOfWork.PatientsRepository.Get(searchFunction);
+            return searchFunction;
+        }
 
-            return patients;
+        private static Func<IQueryable<Patient>, IOrderedQueryable<Patient>> GetSortFunction(string sortOrder)
+        {
+            Func<IQueryable<Patient>, IOrderedQueryable<Patient>> sortFunction;
+            switch (sortOrder)
+            {
+                case "patient_desc":
+                    sortFunction = p => p.OrderByDescending(patient => patient.Name);
+                    break;
+                case "date_desc":
+                    sortFunction = p => p.OrderByDescending(patient => patient.DateAdded);
+                    break;
+                case "date_asc":
+                    sortFunction = p => p.OrderBy(patient => patient.DateAdded);
+                    break;
+                default:
+                    sortFunction = p => p.OrderBy(patient => patient.Name);
+                    break;
+            }
+
+            return sortFunction;
         }
 
         public Patient GetById(Guid id)
