@@ -4,6 +4,8 @@ using PetClinic.Data.Repositories;
 using PetClinic.Data.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,9 +34,19 @@ namespace PetClinic.Data.Services
             return newPatient;
         }
 
-        public IEnumerable<Patient> Get()
+        public IEnumerable<Patient> Get(string searchString = null, string sortOrder = null)
         {
-            return _unitOfWork.PatientsRepository.Get();
+            List<Patient> patients;
+            Expression<Func<Patient, bool>> searchFunction = null;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                searchFunction = a => a.Name == searchString;
+            }
+
+            patients = _unitOfWork.PatientsRepository.Get(searchFunction);
+
+            return patients;
         }
 
         public Patient GetById(Guid id)

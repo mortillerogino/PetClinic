@@ -32,6 +32,14 @@ namespace PetClinic.Data.Seed
                     new Patient { Name = "Tutu" },
                     new Patient { Name = "Fifi" },
                     new Patient { Name = "Brownie" },
+                    new Patient { Name = "Biter" },
+                    new Patient { Name = "Rush" },
+                    new Patient { Name = "Treble" },
+                    new Patient { Name = "Lassie" },
+                    new Patient { Name = "Bolt" },
+                    new Patient { Name = "Brownie" },
+                    new Patient { Name = "Beethoven" },
+                    new Patient { Name = "Hooch" },
                 };
 
                 await patientService.AddMultipleAsync(patients);

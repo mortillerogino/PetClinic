@@ -12,7 +12,7 @@ namespace PetClinic.Data.Services.Interfaces
         Task<Patient> AddAsync(PatientDto patientDto);
 
         Task AddMultipleAsync(IEnumerable<Patient> patients);
-        IEnumerable<Patient> Get();
+        IEnumerable<Patient> Get(string searchString = null, string sortOrder = null);
         Patient GetById(Guid id);
         Task<Patient> RemoveAsync(Guid id);
         Task<Patient> UpdateAsync(Guid id, PatientDto patientDto);

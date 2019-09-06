@@ -20,9 +20,9 @@ namespace PetClinic.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(string searchString = null, string sortOrder = null)
         {
-            IEnumerable<Patient> patients = _patientService.Get();
+            var patients = _patientService.Get(searchString);
 
             return Ok(patients);
         }
