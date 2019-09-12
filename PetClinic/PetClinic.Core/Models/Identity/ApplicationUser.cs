@@ -8,6 +8,6 @@ namespace PetClinic.Core.Models.Identity
 {
     public class ApplicationUser : IdentityUser
     {
-        public Patient Patient { get; set; }
+        public ICollection<Patient> Patient { get; set; }
     }
 }

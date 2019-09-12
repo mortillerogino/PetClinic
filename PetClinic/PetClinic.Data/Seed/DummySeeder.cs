@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using PetClinic.Core.Models;
+using PetClinic.Core.Models.Identity;
 using PetClinic.Data.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,10 +12,34 @@ namespace PetClinic.Data.Seed
     public class DummySeeder
     {
         private readonly IServiceProvider _services;
+        private ApplicationUser seededUser;
 
         public DummySeeder(IServiceProvider services)
         {
             _services = services;
+        }
+
+        public async Task SeedUser()
+        {
+            string seededUserName = "Seeded User";
+            string seededPassword = "1234";
+
+            var userManager = _services.GetService<UserManager<ApplicationUser>>();
+            seededUser = await userManager.FindByNameAsync(seededUserName);
+
+            if (seededUser != null)
+            {
+                return;
+            }
+
+            seededUser = new ApplicationUser
+            {
+                UserName = seededUserName,
+                Email = "seeded@seeder.com"
+            };
+
+            await userManager.CreateAsync(seededUser, seededPassword);
+
         }
 
         public async Task SeedDummyPatients()
@@ -29,17 +55,17 @@ namespace PetClinic.Data.Seed
             {
                 var patients = new Patient[]
                 {
-                    new Patient { Name = "Tutu" },
-                    new Patient { Name = "Fifi" },
-                    new Patient { Name = "Brownie" },
-                    new Patient { Name = "Biter" },
-                    new Patient { Name = "Rush" },
-                    new Patient { Name = "Treble" },
-                    new Patient { Name = "Lassie" },
-                    new Patient { Name = "Bolt" },
-                    new Patient { Name = "Brownie" },
-                    new Patient { Name = "Beethoven" },
-                    new Patient { Name = "Hooch" },
+                    new Patient { Name = "Tutu", User = seededUser },
+                    new Patient { Name = "Fifi", User = seededUser },
+                    new Patient { Name = "Brownie", User = seededUser },
+                    new Patient { Name = "Biter", User = seededUser },
+                    new Patient { Name = "Rush", User = seededUser },
+                    new Patient { Name = "Treble", User = seededUser },
+                    new Patient { Name = "Lassie", User = seededUser },
+                    new Patient { Name = "Bolt", User = seededUser },
+                    new Patient { Name = "Brownie", User = seededUser },
+                    new Patient { Name = "Beethoven", User = seededUser },
+                    new Patient { Name = "Hooch", User = seededUser },
                 };
 
                 await patientService.AddMultipleAsync(patients);

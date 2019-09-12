@@ -26,8 +26,9 @@ namespace PetClinic
                 try
                 {
                     var seeder = new DummySeeder(services);
-                    await seeder.SeedDummyPatients();
-                    await seeder.SeedDummyVets();
+                    await seeder.SeedUser().ConfigureAwait(false);
+                    await seeder.SeedDummyPatients().ConfigureAwait(false);
+                    await seeder.SeedDummyVets().ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
