@@ -10,14 +10,7 @@ namespace PetClinic.Data.Repositories
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        //Task<PaginatedList<TEntity>> GetPaginatedList(
-        //Expression<Func<TEntity, bool>> filter = null,
-        //Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-        //int pageIndex = 1, 
-        //int pageSize = 10,
-        //params Expression<Func<TEntity, object>>[] includes);
-
-        List<TEntity> Get(
+        Task<List<TEntity>> GetAsync(
         Expression<Func<TEntity, bool>> filter = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
         params Expression<Func<TEntity, object>>[] includes);
@@ -26,17 +19,17 @@ namespace PetClinic.Data.Repositories
         Expression<Func<TEntity, bool>> filter = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null);
 
-        TEntity GetById(object id);
+        Task<TEntity> GetByIdAsync(object id);
 
-        TEntity GetFirstOrDefault(
+        Task<TEntity> GetFirstOrDefaultAsync(
         Expression<Func<TEntity, bool>> filter = null,
         params Expression<Func<TEntity, object>>[] includes);
 
-        void Insert(TEntity entity);
+        Task InsertAsync(TEntity entity);
 
         void Update(TEntity entity);
 
-        void Delete(object id);
+        Task DeleteAsync(object id);
 
         int GetCount();
     }

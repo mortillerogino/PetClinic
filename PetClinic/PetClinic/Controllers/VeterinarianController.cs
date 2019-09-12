@@ -22,9 +22,9 @@ namespace PetClinic.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            IEnumerable<VeterinarianDto> vets = _vetService.GetAsDto();
+            IEnumerable<VeterinarianDto> vets = await _vetService.GetAsDtoAsync();
 
             return Ok(vets);
         }

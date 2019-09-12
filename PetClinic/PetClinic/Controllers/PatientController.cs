@@ -35,9 +35,9 @@ namespace PetClinic.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
-            var patient = _patientService.GetById(id);
+            var patient = await _patientService.GetByIdAsync(id);
 
             if (patient == null)
             {

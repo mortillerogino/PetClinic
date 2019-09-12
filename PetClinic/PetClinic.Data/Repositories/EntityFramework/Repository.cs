@@ -21,30 +21,7 @@ namespace PetClinic.Data.Repositories.EntityFramework
             _dbSet = context.Set<TEntity>();
         }
 
-        //public async Task<PaginatedList<TEntity>> GetPaginatedList(
-        //    Expression<Func<TEntity, bool>> filter = null, 
-        //    Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, 
-        //    int pageIndex = 1, 
-        //    int pageSize = 10, 
-        //    params Expression<Func<TEntity, object>>[] includes)
-        //{
-        //    IQueryable<TEntity> query = _dbSet;
-
-        //    foreach (Expression<Func<TEntity, object>> include in includes)
-        //        query = query.Include(include);
-
-        //    if (filter != null)
-        //        query = query.Where(filter);
-
-        //    if (orderBy != null)
-        //        query = orderBy(query);
-
-        //    return await EfPaginatedList<TEntity>.CreateAsync(query, pageIndex, pageSize);
-        //}
-
-
-
-        public virtual List<TEntity> Get(
+        public virtual async Task<List<TEntity>> GetAsync(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             params Expression<Func<TEntity, object>>[] includes)
@@ -60,7 +37,7 @@ namespace PetClinic.Data.Repositories.EntityFramework
             if (orderBy != null)
                 query = orderBy(query);
 
-            return query.ToList();
+            return await query.ToListAsync().ConfigureAwait(false);
         }
 
         public virtual IQueryable<TEntity> Query(
@@ -78,24 +55,24 @@ namespace PetClinic.Data.Repositories.EntityFramework
             return query;
         }
 
-        public virtual TEntity GetById(object id)
+        public virtual async Task<TEntity> GetByIdAsync(object id)
         {
-            return _dbSet.Find(id);
+            return await _dbSet.FindAsync(id).ConfigureAwait(false);
         }
 
-        public virtual TEntity GetFirstOrDefault(Expression<Func<TEntity, bool>> filter = null, params Expression<Func<TEntity, object>>[] includes)
+        public virtual async Task<TEntity> GetFirstOrDefaultAsync(Expression<Func<TEntity, bool>> filter = null, params Expression<Func<TEntity, object>>[] includes)
         {
             IQueryable<TEntity> query = _dbSet;
 
             foreach (Expression<Func<TEntity, object>> include in includes)
                 query = query.Include(include);
 
-            return query.FirstOrDefault(filter);
+            return await query.FirstOrDefaultAsync(filter).ConfigureAwait(false);
         }
 
-        public virtual void Insert(TEntity entity)
+        public virtual async Task InsertAsync(TEntity entity)
         {
-            _dbSet.Add(entity);
+            await _dbSet.AddAsync(entity).ConfigureAwait(false);
         }
 
         public virtual void Update(TEntity entity)
@@ -104,9 +81,9 @@ namespace PetClinic.Data.Repositories.EntityFramework
             _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public virtual void Delete(object id)
+        public virtual async Task DeleteAsync(object id)
         {
-            TEntity entityToDelete = _dbSet.Find(id);
+            TEntity entityToDelete = await _dbSet.FindAsync(id).ConfigureAwait(false);
             if (_context.Entry(entityToDelete).State == EntityState.Detached)
             {
                 _dbSet.Attach(entityToDelete);

@@ -9,9 +9,8 @@ namespace PetClinic.Data.Services.Interfaces
     {
         int GetCount();
         Task<Veterinarian> AddAsync(Veterinarian vet);
-        IEnumerable<Veterinarian> Get();
-
-        IEnumerable<VeterinarianDto> GetAsDto();
+        Task<IEnumerable<Veterinarian>> GetAsync();
+        Task<IEnumerable<VeterinarianDto>> GetAsDtoAsync();
 
     }
 }

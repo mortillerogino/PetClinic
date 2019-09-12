@@ -15,7 +15,7 @@ export class PatientComponent implements OnInit {
   nameAsc: boolean;
   dateAsc: boolean;
   pageIndex: number = 1;
-  pageSize: number = 3;
+  pageSize: number = 5;
   hasNextPage: boolean;
   hasPrevPage: boolean;
   lastSort: string;

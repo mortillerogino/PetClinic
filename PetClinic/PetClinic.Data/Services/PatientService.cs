@@ -30,7 +30,7 @@ namespace PetClinic.Data.Services
                 DateAdded = DateTime.UtcNow
             };
 
-            _unitOfWork.PatientsRepository.Insert(newPatient);
+            await _unitOfWork.PatientsRepository.InsertAsync(newPatient);
             await _unitOfWork.CommitAsync();
             return newPatient;
         }
@@ -79,9 +79,9 @@ namespace PetClinic.Data.Services
             return sortFunction;
         }
 
-        public Patient GetById(Guid id)
+        public async Task<Patient> GetByIdAsync(Guid id)
         {
-            return _unitOfWork.PatientsRepository.GetById(id);
+            return await _unitOfWork.PatientsRepository.GetByIdAsync(id);
         }
 
         public int GetCount()
@@ -91,8 +91,8 @@ namespace PetClinic.Data.Services
 
         public async Task<Patient> RemoveAsync(Guid id)
         {
-            var patient = _unitOfWork.PatientsRepository.GetById(id);
-            _unitOfWork.PatientsRepository.Delete(id);
+            var patient = await _unitOfWork.PatientsRepository.GetByIdAsync(id);
+            await _unitOfWork.PatientsRepository.DeleteAsync(id);
             await _unitOfWork.CommitAsync();
 
             return patient;
@@ -100,7 +100,7 @@ namespace PetClinic.Data.Services
 
         public async Task<Patient> UpdateAsync(Guid id, PatientDto patientDto)
         {
-            var editedPatient = _unitOfWork.PatientsRepository.GetById(id);
+            var editedPatient = await _unitOfWork.PatientsRepository.GetByIdAsync(id);
             editedPatient.Name = patientDto.Name;
 
             _unitOfWork.PatientsRepository.Update(editedPatient);
@@ -111,13 +111,16 @@ namespace PetClinic.Data.Services
 
         public async Task AddMultipleAsync(IEnumerable<Patient> patients)
         {
+            var taskList = new List<Task>();
+
             foreach (Patient p in patients)
             {
                 p.Id = Guid.NewGuid();
                 p.DateAdded = DateTime.UtcNow;
-                _unitOfWork.PatientsRepository.Insert(p);
+                taskList.Add(_unitOfWork.PatientsRepository.InsertAsync(p));
             }
 
+            await Task.WhenAll(taskList);
             await _unitOfWork.CommitAsync();
         }
     }

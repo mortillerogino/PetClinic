@@ -14,7 +14,7 @@ namespace PetClinic.Data.Services.Interfaces
 
         Task AddMultipleAsync(IEnumerable<Patient> patients);
         Task<PaginatedList<Patient>> GetPaginatedListAsync(string searchString = null, string sortOrder = null, int pageIndex = 1, int pageSize = 10);
-        Patient GetById(Guid id);
+        Task<Patient> GetByIdAsync(Guid id);
         Task<Patient> RemoveAsync(Guid id);
         Task<Patient> UpdateAsync(Guid id, PatientDto patientDto);
     }

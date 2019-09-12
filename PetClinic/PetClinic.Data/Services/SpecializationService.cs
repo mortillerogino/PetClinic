@@ -25,8 +25,7 @@ namespace PetClinic.Data.Services
                 Field = field
             };
 
-            _unitOfWork.SpecializationRepository.Insert(newSpec);
-
+            await _unitOfWork.SpecializationRepository.InsertAsync(newSpec);
             await _unitOfWork.CommitAsync();
 
             return newSpec;

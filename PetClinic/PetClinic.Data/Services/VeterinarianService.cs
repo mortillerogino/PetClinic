@@ -21,7 +21,7 @@ namespace PetClinic.Data.Services
         public async Task<Veterinarian> AddAsync(Veterinarian vet)
         {
             vet.Id = Guid.NewGuid();
-            _unitOfWork.VeterinarianRepository.Insert(vet);
+            await _unitOfWork.VeterinarianRepository.InsertAsync(vet);
 
             await _unitOfWork.CommitAsync();
 
@@ -29,15 +29,15 @@ namespace PetClinic.Data.Services
         }
 
 
-        public IEnumerable<Veterinarian> Get()
+        public async Task<IEnumerable<Veterinarian>> GetAsync()
         {
-            _unitOfWork.SpecializationRepository.Get(null, null, s => s.Field);
-            return _unitOfWork.VeterinarianRepository.Get(null, null, v => v.Specializations);
+            await _unitOfWork.SpecializationRepository.GetAsync(null, null, s => s.Field);
+            return await _unitOfWork.VeterinarianRepository.GetAsync(null, null, v => v.Specializations);
         }
 
-        public IEnumerable<VeterinarianDto> GetAsDto()
+        public async Task<IEnumerable<VeterinarianDto>> GetAsDtoAsync()
         {
-            var vets = Get();
+            var vets = await GetAsync();
             List<VeterinarianDto> vetDtos = new List<VeterinarianDto>();
 
             foreach (Veterinarian v in vets)

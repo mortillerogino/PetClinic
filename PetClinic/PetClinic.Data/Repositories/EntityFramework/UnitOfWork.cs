@@ -95,7 +95,7 @@ namespace PetClinic.Data.Repositories.EntityFramework
 
         public async Task<int> CommitAsync()
         {
-            return await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public void Dispose()

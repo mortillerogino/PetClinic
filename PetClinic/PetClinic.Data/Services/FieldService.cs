@@ -21,8 +21,7 @@ namespace PetClinic.Data.Services
         {
             field.Id = Guid.NewGuid();
 
-            _unitOfWork.FieldRepository.Insert(field);
-
+            await _unitOfWork.FieldRepository.InsertAsync(field);
             await _unitOfWork.CommitAsync();
 
             return field;
