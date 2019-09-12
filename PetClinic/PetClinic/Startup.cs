@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PetClinic.Data.Models;
+using PetClinic.Data.Models.Identity;
 using PetClinic.Data.Repositories;
 using PetClinic.Data.Repositories.EntityFramework;
 using PetClinic.Data.Services;
@@ -30,6 +31,8 @@ namespace PetClinic
             {
                 options.UseSqlServer(Configuration.GetConnectionString("PetClinicDb"));
             });
+
+            services.AddDefaultIdentity<ApplicationUser>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPatientService, PatientService>();
@@ -63,6 +66,8 @@ namespace PetClinic
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
