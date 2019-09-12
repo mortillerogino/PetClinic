@@ -5,13 +5,15 @@ using System.Threading.Tasks;
 
 namespace PetClinic.Data.Repositories
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         IPatientRepository PatientsRepository { get; }
         IVeterinarianRepository VeterinarianRepository { get; }
         IDiagnosisRepository DiagnosisRepository { get; }
         ISpecializationRepository SpecializationRepository { get; }
         IFieldRepository FieldRepository { get; }
+
+        IUserRepository UserRepository { get; }
 
         void Commit();
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PetClinic.Data.Repositories.EntityFramework
 {
-    public class UnitOfWork : IUnitOfWork, IDisposable
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly PetClinicContext _context;
         private bool _disposed = false;
@@ -84,6 +84,20 @@ namespace PetClinic.Data.Repositories.EntityFramework
                 }
 
                 return _fieldRepository;
+            }
+        }
+
+        private IUserRepository _userRepository;
+        public IUserRepository UserRepository
+        {
+            get
+            {
+                if (_userRepository == null)
+                {
+                    _userRepository = new UserRepository(_context);
+                }
+
+                return _userRepository;
             }
         }
 
