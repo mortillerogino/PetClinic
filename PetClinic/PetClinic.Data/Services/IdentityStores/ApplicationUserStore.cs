@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using PetClinic.Core.Models.Identity;
 using PetClinic.Data.Repositories;
 using System;
 using System.Collections.Generic;

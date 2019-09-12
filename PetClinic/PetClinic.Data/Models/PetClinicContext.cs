@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PetClinic.Core.Models;
-using PetClinic.Data.Models.Identity;
+using PetClinic.Core.Models.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
