@@ -3,6 +3,7 @@ using PetClinic.Core.Models;
 using PetClinic.Data.Repositories;
 using PetClinic.Data.Services.Interfaces;
 using PetClinic.Data.Utilities;
+using PetClinic.Data.Utilities.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,9 +40,9 @@ namespace PetClinic.Data.Services
             Expression<Func<Patient, bool>> searchFunction = GetSearchFunction(searchString);
             Func<IQueryable<Patient>, IOrderedQueryable<Patient>> sortFunction = GetSortFunction(sortOrder);
 
-            PaginatedList<Patient> patients = await _unitOfWork.PatientsRepository.GetPaginatedList(searchFunction, sortFunction, pageIndex, pageSize);
+            IQueryable<Patient> patients = _unitOfWork.PatientsRepository.Query(searchFunction, sortFunction);
 
-            return patients;
+            return await EfPaginatedList<Patient>.CreateAsync(patients, pageIndex, pageSize);
         }
 
         private static Expression<Func<Patient, bool>> GetSearchFunction(string searchString = null)
