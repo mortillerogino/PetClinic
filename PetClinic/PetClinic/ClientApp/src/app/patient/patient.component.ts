@@ -67,8 +67,6 @@ export class PatientComponent implements OnInit {
     this.sort(search, sort);
   }
 
-
-
   onSearch(search: string) {
     this.pageIndex = 1;
     this.sort(search, "");

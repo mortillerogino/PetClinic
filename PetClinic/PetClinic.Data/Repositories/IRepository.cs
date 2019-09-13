@@ -17,7 +17,8 @@ namespace PetClinic.Data.Repositories
 
         IQueryable<TEntity> Query(
         Expression<Func<TEntity, bool>> filter = null,
-        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null);
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+        params Expression<Func<TEntity, object>>[] includes);
 
         Task<TEntity> GetByIdAsync(object id);
 

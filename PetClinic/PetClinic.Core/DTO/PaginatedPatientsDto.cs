@@ -9,6 +9,6 @@ namespace PetClinic.Core.DTO
     {
         public bool HasPreviousPage { get; set; }
         public bool HasNextPage { get; set; }
-        public IEnumerable<Patient> Patients { get; set; }
+        public IEnumerable<PatientDto> Patients { get; set; }
     }
 }

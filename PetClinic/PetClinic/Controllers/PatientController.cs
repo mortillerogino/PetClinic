@@ -22,16 +22,28 @@ namespace PetClinic.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(string searchString = null, string sortOrder = null, int pageIndex = 1, int pageSize = 10)
         {
-            var patients = await _patientService.GetPaginatedListAsync(searchString, sortOrder, pageIndex, pageSize);
+            var patients = await _patientService.GetPaginatedListAsync(searchString, sortOrder, pageIndex, pageSize, a => a.User);
+            var patientDtoList = new List<PatientDto>();
 
-            var patientsDto = new PaginatedPatientsDto
+            foreach (Patient p in patients)
+            {
+                patientDtoList.Add(new PatientDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    DateAdded = p.DateAdded,
+                    UserName = p.User.UserName
+                });
+            }
+
+            var paginatedPatientsDto = new PaginatedPatientsDto
             {
                 HasPreviousPage = patients.HasPreviousPage,
                 HasNextPage = patients.HasNextPage,
-                Patients = patients
+                Patients = patientDtoList
             };
 
-            return Ok(patientsDto);
+            return Ok(paginatedPatientsDto);
         }
 
         [HttpGet("{id}")]

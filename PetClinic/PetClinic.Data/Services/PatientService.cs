@@ -36,12 +36,17 @@ namespace PetClinic.Data.Services
             return newPatient;
         }
 
-        public async Task<PaginatedList<Patient>> GetPaginatedListAsync(string searchString = null, string sortOrder = null, int pageIndex = 1, int pageSize = 10)
+        public async Task<PaginatedList<Patient>> GetPaginatedListAsync(string searchString = null, 
+            string sortOrder = null, 
+            int pageIndex = 1, 
+            int pageSize = 10, 
+            params Expression<Func<Patient, object>>[] includes)
         {
             Expression<Func<Patient, bool>> searchFunction = GetSearchFunction(searchString);
             Func<IQueryable<Patient>, IOrderedQueryable<Patient>> sortFunction = GetSortFunction(sortOrder);
 
-            IQueryable<Patient> patients = _unitOfWork.PatientsRepository.Query(searchFunction, sortFunction);
+
+            IQueryable<Patient> patients = _unitOfWork.PatientsRepository.Query(searchFunction, sortFunction, includes);
 
             return await EfPaginatedList<Patient>.CreateAsync(patients, pageIndex, pageSize);
         }

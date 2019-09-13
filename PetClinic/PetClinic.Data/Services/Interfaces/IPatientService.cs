@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using PetClinic.Core.DTO;
 using PetClinic.Core.Models;
@@ -13,7 +14,7 @@ namespace PetClinic.Data.Services.Interfaces
         Task<Patient> AddAsync(PatientDto patientDto);
 
         Task AddMultipleAsync(IEnumerable<Patient> patients);
-        Task<PaginatedList<Patient>> GetPaginatedListAsync(string searchString = null, string sortOrder = null, int pageIndex = 1, int pageSize = 10);
+        Task<PaginatedList<Patient>> GetPaginatedListAsync(string searchString = null, string sortOrder = null, int pageIndex = 1, int pageSize = 10, params Expression<Func<Patient, object>>[] includes);
         Task<Patient> GetByIdAsync(Guid id);
         Task<Patient> RemoveAsync(Guid id);
         Task<Patient> UpdateAsync(Guid id, PatientDto patientDto);

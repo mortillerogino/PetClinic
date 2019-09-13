@@ -11,6 +11,7 @@
         <th scope="col">Id</th>
         <th scope="col" (click)="onSortName()" class="clickable">Patient</th>
         <th scope="col" (click)="onSortDate()" class="clickable">Date Added</th>
+        <th scope="col" class="clickable">User</th>
         <th scope="col" class="button-column"></th>
         <th scope="col" class="button-column"></th>
       </tr>
@@ -20,6 +21,7 @@
         <td>{{p.id}}</td>
         <td>{{p.name}}</td>
         <td>{{p.dateAdded | date: 'MMM dd, yyyy'}}</td>
+        <td>{{p.userName}}</td>
         <td><button type="button" class="btn btn-success btn-block" [routerLink]='["/patient/add"]' disabled><i class="fas fa-notes-medical"></i> DIAGNOSE</button></td>
         <td><button class="btn btn-danger btn-block" (click)="onDelete(p.id, p.name)"><i class="fas fa-trash-alt"></i> DELETE</button></td>
       </tr>

@@ -1,4 +1,5 @@
-﻿using PetClinic.Core.Models.Identity;
+﻿using Newtonsoft.Json;
+using PetClinic.Core.Models.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
