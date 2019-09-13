@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -66,9 +68,11 @@ namespace PetClinic.Controllers
         {
             try
             {
+                var userName = User.Claims.First(c => c.Type == ClaimTypes.Name).Value;
+                patientDTO.UserName = userName;
                 var patient = await _patientService.AddAsync(patientDTO);
 
-                return CreatedAtAction(nameof(Get), new { id = patient.Id }, patient);
+                return CreatedAtAction(nameof(Get), new { name = patient.Name, addedBy = userName });
             }
             catch (Exception ex)
             {

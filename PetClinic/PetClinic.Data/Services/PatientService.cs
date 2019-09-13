@@ -23,12 +23,14 @@ namespace PetClinic.Data.Services
 
         public async Task<Patient> AddAsync(PatientDto patientDto)
         {
+            var user = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(u => u.UserName == patientDto.UserName);
 
             var newPatient = new Patient
             {
                 Id = Guid.NewGuid(),
                 Name = patientDto.Name,
-                DateAdded = DateTime.UtcNow
+                DateAdded = DateTime.UtcNow,
+                User = user
             };
 
             await _unitOfWork.PatientsRepository.InsertAsync(newPatient);

@@ -24,7 +24,6 @@ export class PatientService {
 
   newPatientForm = this.fb.group({
     Name: ['', Validators.required],
-    User: [{value: this.userService.userName, disabled: true}]
   });
 
   getPatients() {
