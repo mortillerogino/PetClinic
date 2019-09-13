@@ -49,8 +49,7 @@ export class PatientService {
 
   add() {
     var body = {
-      Name: this.newPatientForm.value.Name,
-      UserId: this.userService.userID
+      Name: this.newPatientForm.value.Name
     }
     return this.http.post(this.baseUrl + 'api/Patient', body);
   }

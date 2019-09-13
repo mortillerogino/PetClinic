@@ -45,7 +45,6 @@ namespace PetClinic.Controllers
                     {
                         Subject = new ClaimsIdentity(new Claim[]
                         {
-                            new Claim("UserID", user.Id.ToString()),
                             new Claim("UserName", user.UserName)
                         }),
                         Expires = DateTime.UtcNow.AddMinutes(30),
