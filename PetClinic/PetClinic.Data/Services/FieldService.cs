@@ -17,7 +17,7 @@ namespace PetClinic.Data.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Field> AddAsync(Field field)
+        public async Task<MedicalField> AddAsync(MedicalField field)
         {
             field.Id = Guid.NewGuid();
 

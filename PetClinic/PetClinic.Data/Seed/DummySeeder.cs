@@ -87,8 +87,8 @@ namespace PetClinic.Data.Seed
                 return;
             }
 
-            var generalHeathField = await fieldService.AddAsync(new Field { Name = "General Health" });
-            var surgeryField = await fieldService.AddAsync(new Field { Name = "Surgery" });
+            var generalHeathField = await fieldService.AddAsync(new MedicalField { Name = "General Health" });
+            var surgeryField = await fieldService.AddAsync(new MedicalField { Name = "Surgery" });
 
             var vetMichael = await vetService.AddAsync(new Veterinarian { Name = "Michael Brown" });
             var vetLiza = await vetService.AddAsync(new Veterinarian { Name = "Liza Gomez" });

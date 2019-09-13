@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PetClinic.Data.Repositories.EntityFramework
 {
-    public class FieldRepository : Repository<Field>, IFieldRepository
+    public class FieldRepository : Repository<MedicalField>, IFieldRepository
     {
         public FieldRepository(DbContext dbContext)
             : base(dbContext)

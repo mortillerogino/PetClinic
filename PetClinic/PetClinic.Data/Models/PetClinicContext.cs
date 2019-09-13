@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PetClinic.Core.Models;
 using PetClinic.Core.Models.Identity;
@@ -8,7 +9,14 @@ using System.Text;
 
 namespace PetClinic.Data.Models
 {
-    public class PetClinicContext : IdentityDbContext<ApplicationUser>
+    public class PetClinicContext : IdentityDbContext<ApplicationUser,
+        IdentityRole,
+        string,
+        ApplicationUserClaim,
+        IdentityUserRole<string>,
+        IdentityUserLogin<string>,
+        IdentityRoleClaim<string>,
+        IdentityUserToken<string>>
     {
         public PetClinicContext(DbContextOptions options)
             : base(options)
@@ -20,8 +28,9 @@ namespace PetClinic.Data.Models
         public DbSet<Veterinarian> Veterinarians { get; set; }
         public DbSet<Diagnosis> Diagnoses { get; set; }
         public DbSet<Specialization> Specializations { get; set; }
-        public DbSet<Field> Fields { get; set; }
+        public DbSet<MedicalField> MedicalFields { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<ApplicationUserClaim> ApplicationUserClaims { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,8 +40,9 @@ namespace PetClinic.Data.Models
             modelBuilder.Entity<Veterinarian>().ToTable("Veterinarian");
             modelBuilder.Entity<Diagnosis>().ToTable("Diagnosis");
             modelBuilder.Entity<Specialization>().ToTable("Specialization");
-            modelBuilder.Entity<Field>().ToTable("Field");
+            modelBuilder.Entity<MedicalField>().ToTable("MedicalField");
             modelBuilder.Entity<ApplicationUser>().ToTable("ApplicationUser");
+            modelBuilder.Entity<ApplicationUserClaim>().ToTable("ApplicationUserClaim");
         }
     }
 }

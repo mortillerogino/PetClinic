@@ -31,7 +31,7 @@ namespace PetClinic.Data.Services
 
         public async Task<IEnumerable<Veterinarian>> GetAsync()
         {
-            await _unitOfWork.SpecializationRepository.GetAsync(null, null, s => s.Field);
+            await _unitOfWork.SpecializationRepository.GetAsync(null, null, s => s.MedicalField);
             return await _unitOfWork.VeterinarianRepository.GetAsync(null, null, v => v.Specializations);
         }
 
@@ -65,7 +65,7 @@ namespace PetClinic.Data.Services
 
             foreach (Specialization spec in veterinarian.Specializations)
             {
-                specs.Add(spec.Field.Name);
+                specs.Add(spec.MedicalField.Name);
             }
 
             dto.Specializations = specs;

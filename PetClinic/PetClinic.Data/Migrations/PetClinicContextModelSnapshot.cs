@@ -63,26 +63,6 @@ namespace PetClinic.Data.Migrations
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ClaimType");
-
-                    b.Property<string>("ClaimValue");
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserClaims");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
@@ -156,19 +136,6 @@ namespace PetClinic.Data.Migrations
                     b.ToTable("Diagnosis");
                 });
 
-            modelBuilder.Entity("PetClinic.Core.Models.Field", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Field");
-                });
-
             modelBuilder.Entity("PetClinic.Core.Models.Identity.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -220,6 +187,39 @@ namespace PetClinic.Data.Migrations
                     b.ToTable("ApplicationUser");
                 });
 
+            modelBuilder.Entity("PetClinic.Core.Models.Identity.ApplicationUserClaim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ApplicationUserClaim");
+                });
+
+            modelBuilder.Entity("PetClinic.Core.Models.MedicalField", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MedicalField");
+                });
+
             modelBuilder.Entity("PetClinic.Core.Models.Patient", b =>
                 {
                     b.Property<Guid>("Id")
@@ -244,13 +244,13 @@ namespace PetClinic.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<Guid?>("FieldId");
+                    b.Property<Guid>("MedicalFieldId");
 
-                    b.Property<Guid?>("VeterinarianId");
+                    b.Property<Guid>("VeterinarianId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FieldId");
+                    b.HasIndex("MedicalFieldId");
 
                     b.HasIndex("VeterinarianId");
 
@@ -275,14 +275,6 @@ namespace PetClinic.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.HasOne("PetClinic.Core.Models.Identity.ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -328,6 +320,14 @@ namespace PetClinic.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("PetClinic.Core.Models.Identity.ApplicationUserClaim", b =>
+                {
+                    b.HasOne("PetClinic.Core.Models.Identity.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("PetClinic.Core.Models.Patient", b =>
                 {
                     b.HasOne("PetClinic.Core.Models.Identity.ApplicationUser", "User")
@@ -337,13 +337,15 @@ namespace PetClinic.Data.Migrations
 
             modelBuilder.Entity("PetClinic.Core.Models.Specialization", b =>
                 {
-                    b.HasOne("PetClinic.Core.Models.Field", "Field")
+                    b.HasOne("PetClinic.Core.Models.MedicalField", "MedicalField")
                         .WithMany("Specializations")
-                        .HasForeignKey("FieldId");
+                        .HasForeignKey("MedicalFieldId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("PetClinic.Core.Models.Veterinarian", "Veterinarian")
                         .WithMany("Specializations")
-                        .HasForeignKey("VeterinarianId");
+                        .HasForeignKey("VeterinarianId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

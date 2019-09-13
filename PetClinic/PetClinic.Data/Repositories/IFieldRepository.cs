@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PetClinic.Data.Repositories
 {
-    public interface IFieldRepository : IRepository<Field>
+    public interface IFieldRepository : IRepository<MedicalField>
     {
     }
 }

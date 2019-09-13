@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PetClinic.Data.Migrations
 {
-    public partial class AddIdentityApplicationUser : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,7 +48,31 @@ namespace PetClinic.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUserClaims",
+                name: "MedicalField",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MedicalField", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Veterinarian",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Veterinarian", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ApplicationUserClaim",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -59,9 +83,9 @@ namespace PetClinic.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.PrimaryKey("PK_ApplicationUserClaim", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUserClaims_ApplicationUser_UserId",
+                        name: "FK_ApplicationUserClaim_ApplicationUser_UserId",
                         column: x => x.UserId,
                         principalTable: "ApplicationUser",
                         principalColumn: "Id",
@@ -109,6 +133,26 @@ namespace PetClinic.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Patient",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    DateAdded = table.Column<DateTime>(nullable: false),
+                    ApplicationUserID = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Patient", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Patient_ApplicationUser_ApplicationUserID",
+                        column: x => x.ApplicationUserID,
+                        principalTable: "ApplicationUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -153,6 +197,58 @@ namespace PetClinic.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Specialization",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    VeterinarianId = table.Column<Guid>(nullable: false),
+                    MedicalFieldId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Specialization", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Specialization_MedicalField_MedicalFieldId",
+                        column: x => x.MedicalFieldId,
+                        principalTable: "MedicalField",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Specialization_Veterinarian_VeterinarianId",
+                        column: x => x.VeterinarianId,
+                        principalTable: "Veterinarian",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Diagnosis",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Notes = table.Column<string>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
+                    PatientId = table.Column<Guid>(nullable: false),
+                    VeterinarianId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Diagnosis", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Diagnosis_Patient_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patient",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Diagnosis_Veterinarian_VeterinarianId",
+                        column: x => x.VeterinarianId,
+                        principalTable: "Veterinarian",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "ApplicationUser",
@@ -164,6 +260,11 @@ namespace PetClinic.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ApplicationUserClaim_UserId",
+                table: "ApplicationUserClaim",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -178,11 +279,6 @@ namespace PetClinic.Data.Migrations
                 filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserClaims_UserId",
-                table: "AspNetUserClaims",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserLogins_UserId",
                 table: "AspNetUserLogins",
                 column: "UserId");
@@ -191,15 +287,40 @@ namespace PetClinic.Data.Migrations
                 name: "IX_AspNetUserRoles_RoleId",
                 table: "AspNetUserRoles",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Diagnosis_PatientId",
+                table: "Diagnosis",
+                column: "PatientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Diagnosis_VeterinarianId",
+                table: "Diagnosis",
+                column: "VeterinarianId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Patient_ApplicationUserID",
+                table: "Patient",
+                column: "ApplicationUserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Specialization_MedicalFieldId",
+                table: "Specialization",
+                column: "MedicalFieldId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Specialization_VeterinarianId",
+                table: "Specialization",
+                column: "VeterinarianId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AspNetRoleClaims");
+                name: "ApplicationUserClaim");
 
             migrationBuilder.DropTable(
-                name: "AspNetUserClaims");
+                name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
                 name: "AspNetUserLogins");
@@ -211,7 +332,22 @@ namespace PetClinic.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Diagnosis");
+
+            migrationBuilder.DropTable(
+                name: "Specialization");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Patient");
+
+            migrationBuilder.DropTable(
+                name: "MedicalField");
+
+            migrationBuilder.DropTable(
+                name: "Veterinarian");
 
             migrationBuilder.DropTable(
                 name: "ApplicationUser");

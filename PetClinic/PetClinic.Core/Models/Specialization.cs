@@ -10,7 +10,10 @@ namespace PetClinic.Core.Models
         [Key]
         public Guid Id { get; set; }
 
+        public Guid VeterinarianId { get; set; }
         public Veterinarian Veterinarian { get; set; }
-        public Field Field { get; set; }
+
+        public Guid MedicalFieldId { get; set; }
+        public MedicalField MedicalField { get; set; }
     }
 }

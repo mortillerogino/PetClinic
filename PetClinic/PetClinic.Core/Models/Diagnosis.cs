@@ -16,8 +16,11 @@ namespace PetClinic.Core.Models
         public DateTime Date { get; set; }
 
         [Required]
+        public Guid PatientId { get; set; }
         public Patient Patient { get; set; }
+
         [Required]
+        public Guid VeterinarianId { get; set; }
         public Veterinarian Veterinarian { get; set; }
     }
 }

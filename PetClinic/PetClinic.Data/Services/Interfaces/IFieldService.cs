@@ -8,6 +8,6 @@ namespace PetClinic.Data.Services.Interfaces
 {
     public interface IFieldService
     {
-        Task<Field> AddAsync(Field field);
+        Task<MedicalField> AddAsync(MedicalField field);
     }
 }

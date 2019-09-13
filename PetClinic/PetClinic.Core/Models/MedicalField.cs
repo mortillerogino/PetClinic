@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PetClinic.Core.Models
 {
-    public class Field
+    public class MedicalField
     {
         [Key]
         public Guid Id { get; set; }
