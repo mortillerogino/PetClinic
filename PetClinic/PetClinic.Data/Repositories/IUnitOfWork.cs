@@ -14,6 +14,7 @@ namespace PetClinic.Data.Repositories
         IFieldRepository FieldRepository { get; }
 
         IUserRepository UserRepository { get; }
+        IUserClaimRepository UserClaimRepository { get; }
 
         void Commit();
 

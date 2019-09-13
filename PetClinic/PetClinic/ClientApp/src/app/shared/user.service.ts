@@ -11,7 +11,7 @@ export class UserService {
 
   getPayload() {
     let user = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]))
-    this.userName = user.UserName;
+    this.userName = user.unique_name;
   }
 
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }

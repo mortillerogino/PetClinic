@@ -39,12 +39,11 @@ namespace PetClinic.Controllers
             {
                 if (await _userManager.CheckPasswordAsync(user, dto.Password))
                 {
+                    var claims = await _userManager.GetClaimsAsync(user);
+
                     var tokenDescriptor = new SecurityTokenDescriptor
                     {
-                        Subject = new ClaimsIdentity(new Claim[]
-                        {
-                            new Claim("UserName", user.UserName)
-                        }),
+                        Subject = new ClaimsIdentity(claims),
                         Expires = DateTime.UtcNow.AddMinutes(30),
                         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Value.Secret)), SecurityAlgorithms.HmacSha256Signature)
                     };

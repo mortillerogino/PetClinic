@@ -2,7 +2,10 @@
 using PetClinic.Core.Models.Identity;
 using PetClinic.Data.Repositories;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +15,8 @@ namespace PetClinic.Data.Models.Identity
     public class ApplicationUserStore : IUserStore<ApplicationUser>,
         IUserPasswordStore<ApplicationUser>,
         IUserEmailStore<ApplicationUser>,
-        IUserSecurityStampStore<ApplicationUser>
+        IUserSecurityStampStore<ApplicationUser>,
+        IUserClaimStore<ApplicationUser>
 
     {
         private bool _disposedValue = false;
@@ -491,131 +495,131 @@ namespace PetClinic.Data.Models.Identity
             }
         }
 
-        //public async Task<IList<Claim>> GetClaimsAsync(ApplicationUser user, CancellationToken cancellationToken)
-        //{
-        //    try
-        //    {
-        //        cancellationToken.ThrowIfCancellationRequested();
-        //        ThrowIfDisposed();
-        //        var userClaims = await _unitOfWork.UserClaimRepository.Get(c => c.UserId == user.Id);
+        public async Task<IList<Claim>> GetClaimsAsync(ApplicationUser user, CancellationToken cancellationToken)
+        {
+            try
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                ThrowIfDisposed();
+                var userClaims = await _unitOfWork.UserClaimRepository.GetAsync(c => c.UserId == user.Id);
 
-        //        var claims = new ConcurrentBag<Claim>();
+                var claims = new ConcurrentBag<Claim>();
 
-        //        if (userClaims.Count > 0)
-        //        {
-        //            Parallel.ForEach(userClaims, currentUserClaim =>
-        //            {
-        //                claims.Add(currentUserClaim.ToClaim());
-        //            });
-        //        }
+                if (userClaims.Count > 0)
+                {
+                    Parallel.ForEach(userClaims, currentUserClaim =>
+                    {
+                        claims.Add(currentUserClaim.ToClaim());
+                    });
+                }
 
-        //        return claims.ToList();
+                return claims.ToList();
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-        //public async Task AddClaimsAsync(ApplicationUser user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
-        //{
-        //    try
-        //    {
-        //        cancellationToken.ThrowIfCancellationRequested();
-        //        ThrowIfDisposed();
+        public async Task AddClaimsAsync(ApplicationUser user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
+        {
+            try
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                ThrowIfDisposed();
 
-        //        var taskList = new List<Task>();
+                var taskList = new List<Task>();
 
-        //        foreach (Claim c in claims)
-        //        {
-        //            var userClaim = new ApplicationUserClaim
-        //            {
-        //                UserId = user.Id,
-        //                ClaimType = c.Type,
-        //                ClaimValue = c.Value
-        //            };
+                foreach (Claim c in claims)
+                {
+                    var userClaim = new ApplicationUserClaim
+                    {
+                        UserId = user.Id,
+                        ClaimType = c.Type,
+                        ClaimValue = c.Value
+                    };
 
-        //            taskList.Add(_unitOfWork.UserClaimRepository.Insert(userClaim));
-        //        }
+                    taskList.Add(_unitOfWork.UserClaimRepository.InsertAsync(userClaim));
+                }
 
-        //        await Task.WhenAll(taskList);
-        //        await _unitOfWork.CommitAsync();
-        //    }
-        //    catch (Exception ex)
-        //    {
+                await Task.WhenAll(taskList);
+                await _unitOfWork.CommitAsync();
+            }
+            catch (Exception ex)
+            {
 
-        //        throw ex;
-        //    }
-        //}
+                throw ex;
+            }
+        }
 
-        //public async Task ReplaceClaimAsync(ApplicationUser user, Claim claim, Claim newClaim, CancellationToken cancellationToken)
-        //{
-        //    try
-        //    {
-        //        cancellationToken.ThrowIfCancellationRequested();
-        //        ThrowIfDisposed();
-        //        var matches = await _unitOfWork.UserClaimRepository.Get(uc => uc.UserId == user.Id && uc.ClaimType == claim.Type && uc.ClaimValue == claim.Value);
+        public async Task ReplaceClaimAsync(ApplicationUser user, Claim claim, Claim newClaim, CancellationToken cancellationToken)
+        {
+            try
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                ThrowIfDisposed();
+                var matches = await _unitOfWork.UserClaimRepository.GetAsync(uc => uc.UserId == user.Id && uc.ClaimType == claim.Type && uc.ClaimValue == claim.Value);
 
-        //        foreach (ApplicationUserClaim uc in matches)
-        //        {
-        //            uc.ClaimValue = newClaim.Value;
-        //            uc.ClaimType = newClaim.Type;
-        //        }
+                foreach (ApplicationUserClaim uc in matches)
+                {
+                    uc.ClaimValue = newClaim.Value;
+                    uc.ClaimType = newClaim.Type;
+                }
 
-        //        await _unitOfWork.CommitAsync();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+                await _unitOfWork.CommitAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
-        //public async Task RemoveClaimsAsync(ApplicationUser user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
-        //{
-        //    try
-        //    {
-        //        cancellationToken.ThrowIfCancellationRequested();
-        //        ThrowIfDisposed();
+        public async Task RemoveClaimsAsync(ApplicationUser user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
+        {
+            try
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                ThrowIfDisposed();
 
-        //        var taskList = new List<Task>();
+                var taskList = new List<Task>();
 
-        //        foreach (var claim in claims)
-        //        {
-        //            var matchedClaims = await _unitOfWork.UserClaimRepository.Get(uc => uc.UserId.Equals(user.Id) && uc.ClaimValue == claim.Value && uc.ClaimType == claim.Type);
-        //            foreach (var c in matchedClaims)
-        //            {
-        //                taskList.Add(_unitOfWork.UserClaimRepository.Delete(c));
-        //            }
-        //        }
+                foreach (var claim in claims)
+                {
+                    var matchedClaims = await _unitOfWork.UserClaimRepository.GetAsync(uc => uc.UserId.Equals(user.Id) && uc.ClaimValue == claim.Value && uc.ClaimType == claim.Type);
+                    foreach (var c in matchedClaims)
+                    {
+                        taskList.Add(_unitOfWork.UserClaimRepository.DeleteAsync(c));
+                    }
+                }
 
-        //        await Task.WhenAll(taskList);
-        //        await _unitOfWork.CommitAsync();
-        //    }
-        //    catch (Exception ex)
-        //    {
+                await Task.WhenAll(taskList);
+                await _unitOfWork.CommitAsync();
+            }
+            catch (Exception ex)
+            {
 
-        //        throw ex;
-        //    }
-        //}
+                throw ex;
+            }
+        }
 
-        //public async Task<IList<ApplicationUser>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken)
-        //{
-        //    cancellationToken.ThrowIfCancellationRequested();
-        //    ThrowIfDisposed();
+        public async Task<IList<ApplicationUser>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ThrowIfDisposed();
 
-        //    var matchingUserClaims = await _unitOfWork.UserClaimRepository.Get(uc => uc.ClaimType == claim.Type && uc.ClaimValue == claim.Value);
+            var matchingUserClaims = await _unitOfWork.UserClaimRepository.GetAsync(uc => uc.ClaimType == claim.Type && uc.ClaimValue == claim.Value);
 
-        //    var taskList = new List<Task<ApplicationUser>>();
+            var taskList = new List<Task<ApplicationUser>>();
 
-        //    foreach (ApplicationUserClaim uc in matchingUserClaims)
-        //    {
-        //        taskList.Add(_unitOfWork.UserRepository.GetById(uc.UserId));
-        //    }
+            foreach (ApplicationUserClaim uc in matchingUserClaims)
+            {
+                taskList.Add(_unitOfWork.UserRepository.GetByIdAsync(uc.UserId));
+            }
 
-        //    var result = await Task.WhenAll(taskList.ToList());
-        //    return result;
-        //}
+            var result = await Task.WhenAll(taskList);
+            return result;
+        }
 
         protected virtual void Dispose(bool disposing)
         {
@@ -656,5 +660,6 @@ namespace PetClinic.Data.Models.Identity
             }
         }
 
+        
     }
 }

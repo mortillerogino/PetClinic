@@ -101,6 +101,20 @@ namespace PetClinic.Data.Repositories.EntityFramework
             }
         }
 
+        private IUserClaimRepository _userClaimRepository;
+        public IUserClaimRepository UserClaimRepository
+        {
+            get
+            {
+                if (_userClaimRepository == null)
+                {
+                    _userClaimRepository = new UserClaimRepository(_context);
+                }
+
+                return _userClaimRepository;
+            }
+        }
+
 
         public void Commit()
         {
