@@ -21,7 +21,7 @@ namespace PetClinic.Data.Seed
 
         public async Task SeedUser()
         {
-            string seededUserName = "Seeded User";
+            string seededUserName = "admin";
             string seededPassword = "1234";
 
             var userManager = _services.GetService<UserManager<ApplicationUser>>();
@@ -35,7 +35,7 @@ namespace PetClinic.Data.Seed
             seededUser = new ApplicationUser
             {
                 UserName = seededUserName,
-                Email = "seeded@seeder.com"
+                Email = "admin@seeder.com"
             };
 
             await userManager.CreateAsync(seededUser, seededPassword);
