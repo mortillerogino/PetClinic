@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PetClinic.Core.DTO;
 using PetClinic.Core.Models;
@@ -8,6 +9,7 @@ using PetClinic.Data.Services.Interfaces;
 
 namespace PetClinic.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PatientController : ControllerBase
@@ -62,8 +64,6 @@ namespace PetClinic.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(PatientDto patientDTO)
         {
-            //var a = User.I;
-
             try
             {
                 var patient = await _patientService.AddAsync(patientDTO);

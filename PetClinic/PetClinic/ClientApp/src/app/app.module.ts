@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 
@@ -18,6 +18,10 @@ import { EditComponent } from './patient/details/edit/edit.component';
 import { VeterinarianComponent } from './veterinarian/veterinarian.component';
 import { LoginComponent } from './user/login/login.component';
 import { AuthGuard } from './auth/auth.guard';
+import { PatientService } from './shared/patient.service';
+import { AuthInterceptor } from './auth/AuthInterceptor';
+import { UserService } from './shared/user.service';
+import { VeterinarianService } from './shared/veterinarian.service';
 
 @NgModule({
   declarations: [
@@ -50,7 +54,13 @@ import { AuthGuard } from './auth/auth.guard';
       { path: 'login', component: LoginComponent },
     ]),
   ],
-  providers: [],
+  providers: [PatientService,
+    UserService,
+    VeterinarianService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
