@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { EditComponent } from './patient/details/edit/edit.component';
 import { VeterinarianComponent } from './veterinarian/veterinarian.component';
+import { LoginComponent } from './user/login/login.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { VeterinarianComponent } from './veterinarian/veterinarian.component';
     DetailsComponent,
     AddComponent,
     EditComponent,
-    VeterinarianComponent
+    VeterinarianComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -37,12 +39,14 @@ import { VeterinarianComponent } from './veterinarian/veterinarian.component';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', component: LoginComponent, pathMatch: 'full' },
+      { path: 'home', component: HomeComponent },
       { path: 'patient', component: PatientComponent },
       { path: 'patient/details', component: DetailsComponent },
       { path: 'patient/add', component: AddComponent },
       { path: 'patient/details/edit', component: EditComponent },
       { path: 'veterinarian', component: VeterinarianComponent },
+      { path: 'login', component: LoginComponent },
     ]),
   ],
   providers: [],

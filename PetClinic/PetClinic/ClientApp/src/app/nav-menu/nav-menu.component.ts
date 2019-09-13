@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { UserService } from '../shared/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-menu',
@@ -8,6 +10,8 @@ import { Component } from '@angular/core';
 export class NavMenuComponent {
   isExpanded = false;
 
+  constructor(private userService: UserService, private router: Router) { }
+
   collapse() {
     this.isExpanded = false;
   }
@@ -15,4 +19,10 @@ export class NavMenuComponent {
   toggle() {
     this.isExpanded = !this.isExpanded;
   }
+
+  onLogout() {
+    this.userService.logout();
+    this.router.navigate(['login']);
+  }
+
 }
