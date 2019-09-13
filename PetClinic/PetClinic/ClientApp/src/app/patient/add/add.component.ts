@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientService } from '../../shared/patient.service';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { UserService } from '../../shared/user.service';
 
 @Component({
   selector: 'app-add',
@@ -9,7 +10,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 })
 export class AddComponent implements OnInit {
 
-  constructor(private service: PatientService, private toastr: ToastrService) { }
+  constructor(private service: PatientService, private toastr: ToastrService, private userService: UserService) { }
 
   ngOnInit() {
   }

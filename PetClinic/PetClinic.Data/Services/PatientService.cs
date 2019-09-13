@@ -23,6 +23,7 @@ namespace PetClinic.Data.Services
 
         public async Task<Patient> AddAsync(PatientDto patientDto)
         {
+
             var newPatient = new Patient
             {
                 Id = Guid.NewGuid(),

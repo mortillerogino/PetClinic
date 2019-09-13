@@ -17,6 +17,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { EditComponent } from './patient/details/edit/edit.component';
 import { VeterinarianComponent } from './veterinarian/veterinarian.component';
 import { LoginComponent } from './user/login/login.component';
+import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({
   declarations: [
@@ -39,13 +40,13 @@ import { LoginComponent } from './user/login/login.component';
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     RouterModule.forRoot([
-      { path: '', component: LoginComponent, pathMatch: 'full' },
-      { path: 'home', component: HomeComponent },
-      { path: 'patient', component: PatientComponent },
-      { path: 'patient/details', component: DetailsComponent },
-      { path: 'patient/add', component: AddComponent },
-      { path: 'patient/details/edit', component: EditComponent },
-      { path: 'veterinarian', component: VeterinarianComponent },
+      { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard] },
+      { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+      { path: 'patient', component: PatientComponent, canActivate: [AuthGuard] },
+      { path: 'patient/details', component: DetailsComponent, canActivate: [AuthGuard] },
+      { path: 'patient/add', component: AddComponent, canActivate: [AuthGuard] },
+      { path: 'patient/details/edit', component: EditComponent, canActivate: [AuthGuard] },
+      { path: 'veterinarian', component: VeterinarianComponent, canActivate: [AuthGuard] },
       { path: 'login', component: LoginComponent },
     ]),
   ],

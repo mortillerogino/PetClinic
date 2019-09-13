@@ -50,6 +50,8 @@ namespace PetClinic.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(PatientDto patientDTO)
         {
+            //var a = User.I;
+
             try
             {
                 var patient = await _patientService.AddAsync(patientDTO);

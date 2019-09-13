@@ -7,5 +7,6 @@ namespace PetClinic.Core.DTO
     public class PatientDto
     {
         public string Name { get; set; }
+        public string UserId { get; set; }
     }
 }
