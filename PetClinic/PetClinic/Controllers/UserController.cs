@@ -39,8 +39,6 @@ namespace PetClinic.Controllers
             {
                 if (await _userManager.CheckPasswordAsync(user, dto.Password))
                 {
-
-
                     var tokenDescriptor = new SecurityTokenDescriptor
                     {
                         Subject = new ClaimsIdentity(new Claim[]
