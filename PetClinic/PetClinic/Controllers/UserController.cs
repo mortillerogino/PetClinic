@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,7 @@ using PetClinic.Models;
 
 namespace PetClinic.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -29,6 +31,7 @@ namespace PetClinic.Controllers
             _appSettings = appSettings;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("[action]")]
         //POST : /api/ApplicationUser/Login
@@ -63,5 +66,7 @@ namespace PetClinic.Controllers
                 return BadRequest("Username does not exist.");
             }
         }
+
+
     }
 }
