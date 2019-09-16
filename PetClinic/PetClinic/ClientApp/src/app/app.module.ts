@@ -22,6 +22,9 @@ import { PatientService } from './shared/patient.service';
 import { AuthInterceptor } from './auth/AuthInterceptor';
 import { UserService } from './shared/user.service';
 import { VeterinarianService } from './shared/veterinarian.service';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,10 @@ import { VeterinarianService } from './shared/veterinarian.service';
     AddComponent,
     EditComponent,
     VeterinarianComponent,
-    LoginComponent
+    LoginComponent,
+    ForbiddenComponent,
+    UnauthorizedComponent,
+    NotfoundComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -52,6 +58,9 @@ import { VeterinarianService } from './shared/veterinarian.service';
       { path: 'patient/details/edit', component: EditComponent, canActivate: [AuthGuard] },
       { path: 'veterinarian', component: VeterinarianComponent, canActivate: [AuthGuard] },
       { path: 'login', component: LoginComponent },
+      { path: 'forbidden', component: ForbiddenComponent },
+      { path: 'unauthorized', component: UnauthorizedComponent },
+      { path: '**', component: NotfoundComponent },
     ]),
   ],
   providers: [PatientService,
