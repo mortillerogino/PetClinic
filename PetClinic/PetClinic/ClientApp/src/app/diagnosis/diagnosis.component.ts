@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DiagnosisService } from '../shared/diagnosis.service';
 
 @Component({
   selector: 'app-diagnosis',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DiagnosisComponent implements OnInit {
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private service: DiagnosisService) { }
 
   ngOnInit() {
+    this.route.params.subscribe(value => {
+
+      this.service.formModel.get('PatientId').setValue(value['id']);
+      this.service.formModel.get('PatientName').setValue(value['name']);
+    })
+
   }
 
 }

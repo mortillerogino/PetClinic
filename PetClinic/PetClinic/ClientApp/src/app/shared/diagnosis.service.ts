@@ -1,9 +1,26 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class DiagnosisService {
 
-  constructor() { }
+  formModel = this.fb.group({
+    PatientName: [{value: "", disabled: true}],
+    PatientId: [{value: "", disabled: true}],
+    Notes: ['', Validators.required]
+  })
+
+  constructor(private http: HttpClient, private fb: FormBuilder, @Inject('BASE_URL') private baseUrl: string) { }
+
+  postDiagnosis() {
+    var body = {
+      Notes: this.formModel.get("Notes").value,
+      PatientId: this.formModel.get("PatientId").value
+    }
+    return this.http.post(this.baseUrl + 'api/Diagnosis', body);
+  }
 }

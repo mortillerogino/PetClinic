@@ -37,9 +37,9 @@ namespace PetClinic.Data.Services
             return newDiag;
         }
 
-        public async Task<IEnumerable<Diagnosis>> GetAsync()
+        public async Task<IEnumerable<Diagnosis>> GetAsync(Guid patientId)
         {
-            return await _unitOfWork.DiagnosisRepository.GetAsync();
+            return await _unitOfWork.DiagnosisRepository.GetAsync(d => d.PatientId == patientId);
         }
 
 

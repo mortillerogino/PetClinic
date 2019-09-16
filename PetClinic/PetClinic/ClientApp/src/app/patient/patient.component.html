@@ -22,7 +22,7 @@
         <td>{{p.name}}</td>
         <td>{{p.dateAdded | date: 'MMM dd, yyyy'}}</td>
         <td>{{p.userName}}</td>
-        <td><button type="button" class="btn btn-success btn-block" [routerLink]='["/diagnosis"]' [disabled]="!this.isVet"><i class="fas fa-notes-medical"></i> DIAGNOSE</button></td>
+        <td><button type="button" class="btn btn-success btn-block" [routerLink]='["/diagnosis", p.id, p.name]' [disabled]="!this.isVet"><i class="fas fa-notes-medical"></i> DIAGNOSE</button></td>
         <td><button class="btn btn-danger btn-block" (click)="onDelete(p.id, p.name)"><i class="fas fa-trash-alt"></i> DELETE</button></td>
       </tr>
     </tbody>

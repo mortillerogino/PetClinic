@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
-
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
@@ -28,6 +27,7 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { DiagnosisComponent } from './diagnosis/diagnosis.component';
 import { DiagnosisListComponent } from './diagnosis/diagnosis-list/diagnosis-list.component';
 import { DiagnosisFormComponent } from './diagnosis/diagnosis-form/diagnosis-form.component';
+import { DiagnosisService } from './shared/diagnosis.service';
 
 @NgModule({
   declarations: [
@@ -65,7 +65,7 @@ import { DiagnosisFormComponent } from './diagnosis/diagnosis-form/diagnosis-for
       { path: 'veterinarian', component: VeterinarianComponent, canActivate: [AuthGuard] },
       { path: 'login', component: LoginComponent },
       {
-        path: 'diagnosis', component: DiagnosisComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Veterinarian'] },
+        path: 'diagnosis/:id/:name', component: DiagnosisComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Veterinarian'] },
         children: [
           { path: 'list', component: DiagnosisListComponent },
           { path: 'form', component: DiagnosisFormComponent }
@@ -79,7 +79,8 @@ import { DiagnosisFormComponent } from './diagnosis/diagnosis-form/diagnosis-for
   ],
   providers: [PatientService,
     UserService,
-    VeterinarianService, {
+    VeterinarianService,
+    DiagnosisService, {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true

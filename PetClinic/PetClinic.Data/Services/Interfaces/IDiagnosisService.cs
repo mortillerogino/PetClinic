@@ -11,6 +11,6 @@ namespace PetClinic.Data.Services.Interfaces
     {
         Task<Diagnosis> AddAsync(DiagnosisDto dto, string vetUserId);
 
-        Task<IEnumerable<Diagnosis>> GetAsync();
+        Task<IEnumerable<Diagnosis>> GetAsync(Guid patientId);
     }
 }

@@ -41,11 +41,12 @@ namespace PetClinic.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        [Route("{id}")]
+        public async Task<IActionResult> Get(Guid id)
         {
             try
             {
-                var diagnoses = await _service.GetAsync();
+                var diagnoses = await _service.GetAsync(id);
                 return Ok(diagnoses);
             }
             catch (Exception ex)
