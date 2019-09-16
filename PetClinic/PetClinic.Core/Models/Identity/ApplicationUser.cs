@@ -9,5 +9,7 @@ namespace PetClinic.Core.Models.Identity
     public class ApplicationUser : IdentityUser
     {
         public ICollection<Patient> Patient { get; set; }
+        public Guid? VeterinarianId { get; set; }
+        public Veterinarian Veterinarian { get; set; }
     }
 }

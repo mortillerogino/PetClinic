@@ -10,7 +10,7 @@ using PetClinic.Data.Models;
 namespace PetClinic.Data.Migrations
 {
     [DbContext(typeof(PetClinicContext))]
-    [Migration("20190913052909_Initial")]
+    [Migration("20190916010836_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -176,6 +176,8 @@ namespace PetClinic.Data.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
+                    b.Property<Guid?>("VeterinarianId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -185,6 +187,8 @@ namespace PetClinic.Data.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("VeterinarianId");
 
                     b.ToTable("ApplicationUser");
                 });
@@ -320,6 +324,13 @@ namespace PetClinic.Data.Migrations
                         .WithMany("Diagnoses")
                         .HasForeignKey("VeterinarianId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("PetClinic.Core.Models.Identity.ApplicationUser", b =>
+                {
+                    b.HasOne("PetClinic.Core.Models.Veterinarian", "Veterinarian")
+                        .WithMany()
+                        .HasForeignKey("VeterinarianId");
                 });
 
             modelBuilder.Entity("PetClinic.Core.Models.Identity.ApplicationUserClaim", b =>

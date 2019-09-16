@@ -174,6 +174,8 @@ namespace PetClinic.Data.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
+                    b.Property<Guid?>("VeterinarianId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -183,6 +185,8 @@ namespace PetClinic.Data.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("VeterinarianId");
 
                     b.ToTable("ApplicationUser");
                 });
@@ -318,6 +322,13 @@ namespace PetClinic.Data.Migrations
                         .WithMany("Diagnoses")
                         .HasForeignKey("VeterinarianId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("PetClinic.Core.Models.Identity.ApplicationUser", b =>
+                {
+                    b.HasOne("PetClinic.Core.Models.Veterinarian", "Veterinarian")
+                        .WithMany()
+                        .HasForeignKey("VeterinarianId");
                 });
 
             modelBuilder.Entity("PetClinic.Core.Models.Identity.ApplicationUserClaim", b =>
