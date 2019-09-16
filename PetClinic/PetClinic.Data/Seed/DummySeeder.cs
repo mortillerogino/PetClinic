@@ -14,6 +14,7 @@ namespace PetClinic.Data.Seed
     {
         private readonly IServiceProvider _services;
         private ApplicationUser _seededUser;
+        private UserManager<ApplicationUser> _userManager;
 
         public DummySeeder(IServiceProvider services)
         {
@@ -25,8 +26,8 @@ namespace PetClinic.Data.Seed
             string seededUserName = "admin";
             string seededPassword = "1234";
 
-            var userManager = _services.GetService<UserManager<ApplicationUser>>();
-            _seededUser = await userManager.FindByNameAsync(seededUserName);
+            _userManager = _services.GetService<UserManager<ApplicationUser>>();
+            _seededUser = await _userManager.FindByNameAsync(seededUserName);
 
             
 
@@ -41,10 +42,10 @@ namespace PetClinic.Data.Seed
                 Email = "admin@seeder.com"
             };
 
-            await userManager.CreateAsync(_seededUser, seededPassword);
-            await userManager.AddClaimAsync(_seededUser, new Claim(ClaimTypes.Name, _seededUser.UserName));
-            await userManager.AddClaimAsync(_seededUser, new Claim(ClaimTypes.NameIdentifier, _seededUser.Id));
-            await userManager.AddClaimAsync(_seededUser, new Claim(ClaimTypes.Role, "Administrator"));
+            await _userManager.CreateAsync(_seededUser, seededPassword);
+            await _userManager.AddClaimAsync(_seededUser, new Claim(ClaimTypes.Name, _seededUser.UserName));
+            await _userManager.AddClaimAsync(_seededUser, new Claim(ClaimTypes.NameIdentifier, _seededUser.Id));
+            await _userManager.AddClaimAsync(_seededUser, new Claim(ClaimTypes.Role, "Administrator"));
 
         }
 
@@ -103,10 +104,22 @@ namespace PetClinic.Data.Seed
             await specService.AddAsync(vetMichael, surgeryField);
             await specService.AddAsync(vetLiza, surgeryField);
 
-
-
+            await CreateVetLogin(userName: "michael", email: "michael@vets.com", password: "1234");
+            await CreateVetLogin(userName: "liza", email: "liza@vets.com", password: "1234");
         }
 
+        private async Task CreateVetLogin(string userName, string email, string password)
+        {
+            var newVetLogin = new ApplicationUser
+            {
+                UserName = userName,
+                Email = email
+            };
 
+            await _userManager.CreateAsync(newVetLogin, password);
+            await _userManager.AddClaimAsync(newVetLogin, new Claim(ClaimTypes.Name, newVetLogin.UserName));
+            await _userManager.AddClaimAsync(newVetLogin, new Claim(ClaimTypes.NameIdentifier, newVetLogin.Id));
+            await _userManager.AddClaimAsync(newVetLogin, new Claim(ClaimTypes.Role, "Veterinarian"));
+        }
     }
 }

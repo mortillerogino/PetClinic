@@ -27,7 +27,6 @@ namespace PetClinic.Data.Services
 
             var newPatient = new Patient
             {
-                Id = Guid.NewGuid(),
                 Name = patientDto.Name,
                 DateAdded = DateTime.UtcNow,
                 User = user

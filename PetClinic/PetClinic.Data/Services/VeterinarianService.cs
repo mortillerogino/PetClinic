@@ -20,7 +20,6 @@ namespace PetClinic.Data.Services
 
         public async Task<Veterinarian> AddAsync(Veterinarian vet)
         {
-            vet.Id = Guid.NewGuid();
             await _unitOfWork.VeterinarianRepository.InsertAsync(vet);
 
             await _unitOfWork.CommitAsync();

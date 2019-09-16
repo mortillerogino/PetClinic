@@ -19,8 +19,6 @@ namespace PetClinic.Data.Services
 
         public async Task<MedicalField> AddAsync(MedicalField field)
         {
-            field.Id = Guid.NewGuid();
-
             await _unitOfWork.FieldRepository.InsertAsync(field);
             await _unitOfWork.CommitAsync();
 
