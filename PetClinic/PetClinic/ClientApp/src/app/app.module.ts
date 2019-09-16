@@ -25,6 +25,9 @@ import { VeterinarianService } from './shared/veterinarian.service';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { DiagnosisComponent } from './diagnosis/diagnosis.component';
+import { DiagnosisListComponent } from './diagnosis/diagnosis-list/diagnosis-list.component';
+import { DiagnosisFormComponent } from './diagnosis/diagnosis-form/diagnosis-form.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,10 @@ import { NotfoundComponent } from './notfound/notfound.component';
     LoginComponent,
     ForbiddenComponent,
     UnauthorizedComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    DiagnosisComponent,
+    DiagnosisListComponent,
+    DiagnosisFormComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -58,9 +64,17 @@ import { NotfoundComponent } from './notfound/notfound.component';
       { path: 'patient/details/edit', component: EditComponent, canActivate: [AuthGuard] },
       { path: 'veterinarian', component: VeterinarianComponent, canActivate: [AuthGuard] },
       { path: 'login', component: LoginComponent },
+      {
+        path: 'diagnosis', component: DiagnosisComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Veterinarian'] },
+        children: [
+          { path: 'list', component: DiagnosisListComponent },
+          { path: 'form', component: DiagnosisFormComponent }
+        ]
+      },
       { path: 'forbidden', component: ForbiddenComponent },
       { path: 'unauthorized', component: UnauthorizedComponent },
       { path: '**', component: NotfoundComponent },
+      
     ]),
   ],
   providers: [PatientService,

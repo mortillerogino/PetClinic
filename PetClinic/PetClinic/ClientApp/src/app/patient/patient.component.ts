@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientService } from '../shared/patient.service';
 import { ToastrService } from 'ngx-toastr';
+import { UserService } from '../shared/user.service';
 
 @Component({
   selector: 'app-patient',
@@ -20,10 +21,13 @@ export class PatientComponent implements OnInit {
   hasPrevPage: boolean;
   lastSort: string;
 
-  constructor(private service: PatientService, private toastr: ToastrService) { }
+  constructor(private service: PatientService, private toastr: ToastrService, private userService: UserService) { }
+
+  private isVet;
 
   ngOnInit() {
     this.sort("", "");
+    this.isVet = this.userService.roleMatch(['Veterinarian']);
   }
 
   onDetailsClick(event, id) {

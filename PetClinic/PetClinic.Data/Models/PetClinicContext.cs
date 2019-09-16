@@ -21,7 +21,7 @@ namespace PetClinic.Data.Models
         public PetClinicContext(DbContextOptions options)
             : base(options)
         {
-
+            
         }
 
         public DbSet<Patient> Patients { get; set; }
