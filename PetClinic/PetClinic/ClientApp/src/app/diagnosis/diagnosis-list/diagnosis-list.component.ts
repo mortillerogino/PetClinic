@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DiagnosisService } from '../../shared/diagnosis.service';
 
 @Component({
   selector: 'app-diagnosis-list',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DiagnosisListComponent implements OnInit {
 
-  constructor() { }
+  diagnoses;
+
+  constructor(private service: DiagnosisService) { }
 
   ngOnInit() {
+    this.service.getDiagnoses().subscribe(
+      (res: any) => {
+        this.diagnoses = res;
+      },
+      err => {
+        console.log(err);
+      }
+    )
   }
 
 }

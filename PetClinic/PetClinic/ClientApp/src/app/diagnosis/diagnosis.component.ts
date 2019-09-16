@@ -14,6 +14,7 @@ export class DiagnosisComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(value => {
 
+      this.service.patientId = value['id'];
       this.service.formModel.get('PatientId').setValue(value['id']);
       this.service.formModel.get('PatientName').setValue(value['name']);
     })

@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class DiagnosisService {
 
+  patientId: string;
+
   formModel = this.fb.group({
     PatientName: [{value: "", disabled: true}],
     PatientId: [{value: "", disabled: true}],
@@ -22,5 +24,9 @@ export class DiagnosisService {
       PatientId: this.formModel.get("PatientId").value
     }
     return this.http.post(this.baseUrl + 'api/Diagnosis', body);
+  }
+
+  getDiagnoses() {
+    return this.http.get(this.baseUrl + 'api/Diagnosis/' + this.patientId);
   }
 }

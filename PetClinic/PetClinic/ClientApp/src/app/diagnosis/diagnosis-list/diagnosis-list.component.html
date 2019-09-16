@@ -1,3 +1,8 @@
-<p>
-  diagnosis-list works!
-</p>
+<div class="container">
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let d of this.diagnoses">
+      <span class="font-weight-bold">{{d.date | date: 'MMM dd, yyyy'}}</span><br />
+      <span class="font-italic text-break">{{d.notes}}</span>
+    </li>
+  </ul>
+</div>
