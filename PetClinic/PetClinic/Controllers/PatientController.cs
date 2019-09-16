@@ -68,11 +68,10 @@ namespace PetClinic.Controllers
         {
             try
             {
-                var userName = User.Claims.First(c => c.Type == ClaimTypes.Name).Value;
-                patientDTO.UserName = userName;
-                var patient = await _patientService.AddAsync(patientDTO);
+                var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+                var patient = await _patientService.AddAsync(patientDTO, userId);
 
-                return CreatedAtAction(nameof(Get), new { name = patient.Name, addedBy = userName });
+                return CreatedAtAction(nameof(Get), new { name = patient.Name });
             }
             catch (Exception ex)
             {

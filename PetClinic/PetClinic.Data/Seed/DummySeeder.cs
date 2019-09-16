@@ -62,17 +62,17 @@ namespace PetClinic.Data.Seed
             {
                 var patients = new Patient[]
                 {
-                    new Patient { Name = "Tutu", User = _seededUser },
-                    new Patient { Name = "Fifi", User = _seededUser },
-                    new Patient { Name = "Brownie", User = _seededUser },
-                    new Patient { Name = "Biter", User = _seededUser },
-                    new Patient { Name = "Rush", User = _seededUser },
-                    new Patient { Name = "Treble", User = _seededUser },
-                    new Patient { Name = "Lassie", User = _seededUser },
-                    new Patient { Name = "Bolt", User = _seededUser },
-                    new Patient { Name = "Brownie", User = _seededUser },
-                    new Patient { Name = "Beethoven", User = _seededUser },
-                    new Patient { Name = "Hooch", User = _seededUser },
+                    new Patient { Name = "Tutu", ApplicationUserID = _seededUser.Id },
+                    new Patient { Name = "Fifi", ApplicationUserID = _seededUser.Id },
+                    new Patient { Name = "Brownie", ApplicationUserID = _seededUser.Id },
+                    new Patient { Name = "Biter", ApplicationUserID = _seededUser.Id },
+                    new Patient { Name = "Rush", ApplicationUserID = _seededUser.Id },
+                    new Patient { Name = "Treble", ApplicationUserID = _seededUser.Id },
+                    new Patient { Name = "Lassie", ApplicationUserID = _seededUser.Id },
+                    new Patient { Name = "Bolt", ApplicationUserID = _seededUser.Id },
+                    new Patient { Name = "Brownie", ApplicationUserID = _seededUser.Id },
+                    new Patient { Name = "Beethoven", ApplicationUserID = _seededUser.Id },
+                    new Patient { Name = "Hooch", ApplicationUserID = _seededUser.Id },
                 };
 
                 await patientService.AddMultipleAsync(patients);
@@ -100,20 +100,21 @@ namespace PetClinic.Data.Seed
             var vetMichael = await vetService.AddAsync(new Veterinarian { Name = "Michael Brown" });
             var vetLiza = await vetService.AddAsync(new Veterinarian { Name = "Liza Gomez" });
 
-            await specService.AddAsync(vetMichael, generalHeathField);
-            await specService.AddAsync(vetMichael, surgeryField);
-            await specService.AddAsync(vetLiza, surgeryField);
+            await specService.AddAsync(vetMichael.Id, generalHeathField.Id);
+            await specService.AddAsync(vetMichael.Id, surgeryField.Id);
+            await specService.AddAsync(vetLiza.Id, surgeryField.Id);
 
-            await CreateVetLogin(userName: "michael", email: "michael@vets.com", password: "1234");
-            await CreateVetLogin(userName: "liza", email: "liza@vets.com", password: "1234");
+            await CreateVetLogin(userName: "michael", email: "michael@vets.com", password: "1234", vetMichael);
+            await CreateVetLogin(userName: "liza", email: "liza@vets.com", password: "1234", vetLiza);
         }
 
-        private async Task CreateVetLogin(string userName, string email, string password)
+        private async Task CreateVetLogin(string userName, string email, string password, Veterinarian veterinarian)
         {
             var newVetLogin = new ApplicationUser
             {
                 UserName = userName,
-                Email = email
+                Email = email,
+                Veterinarian = veterinarian
             };
 
             await _userManager.CreateAsync(newVetLogin, password);

@@ -59,6 +59,7 @@ namespace PetClinic
             services.AddScoped<ISpecializationService, SpecializationService>();
             services.AddScoped<IVeterinarianService, VeterinarianService>();
             services.AddScoped<IFieldService, FieldService>();
+            services.AddScoped<IDiagnosisService, DiagnosisService>();
 
             services.AddScoped<IUserStore<ApplicationUser>, ApplicationUserStore>();
             services.AddScoped<ApplicationUserStore>();

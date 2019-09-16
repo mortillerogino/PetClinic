@@ -8,6 +8,6 @@ namespace PetClinic.Data.Services.Interfaces
 {
     public interface ISpecializationService
     {
-        Task<Specialization> AddAsync(Veterinarian vet, MedicalField field);
+        Task<Specialization> AddAsync(Guid vetId, Guid fieldId);
     }
 }

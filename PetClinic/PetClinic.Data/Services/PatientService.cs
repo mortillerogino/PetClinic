@@ -21,15 +21,13 @@ namespace PetClinic.Data.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Patient> AddAsync(PatientDto patientDto)
+        public async Task<Patient> AddAsync(PatientDto patientDto, string userId)
         {
-            var user = await _unitOfWork.UserRepository.GetFirstOrDefaultAsync(u => u.UserName == patientDto.UserName);
-
             var newPatient = new Patient
             {
                 Name = patientDto.Name,
                 DateAdded = DateTime.UtcNow,
-                User = user
+                ApplicationUserID = userId
             };
 
             await _unitOfWork.PatientsRepository.InsertAsync(newPatient);
@@ -122,7 +120,6 @@ namespace PetClinic.Data.Services
 
             foreach (Patient p in patients)
             {
-                p.Id = Guid.NewGuid();
                 p.DateAdded = DateTime.UtcNow;
                 taskList.Add(_unitOfWork.PatientsRepository.InsertAsync(p));
             }

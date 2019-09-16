@@ -17,12 +17,12 @@ namespace PetClinic.Data.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Specialization> AddAsync(Veterinarian vet, MedicalField field)
+        public async Task<Specialization> AddAsync(Guid vetId, Guid fieldId)
         {
             var newSpec = new Specialization
             {
-                Veterinarian = vet,
-                MedicalField = field
+                VeterinarianId = vetId,
+                MedicalFieldId = fieldId
             };
 
             await _unitOfWork.SpecializationRepository.InsertAsync(newSpec);

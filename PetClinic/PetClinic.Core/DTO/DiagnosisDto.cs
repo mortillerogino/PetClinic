@@ -8,6 +8,5 @@ namespace PetClinic.Core.DTO
     {
         public string Notes { get; set; }
         public Guid PatientId { get; set; }
-        public Guid VeterinarianId { get; set; }
     }
 }
