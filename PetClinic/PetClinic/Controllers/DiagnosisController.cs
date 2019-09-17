@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using PetClinic.Core.DTO;
 using PetClinic.Core.Models;
 using PetClinic.Data.Services.Interfaces;
@@ -18,10 +19,12 @@ namespace PetClinic.Controllers
     public class DiagnosisController : ControllerBase
     {
         private readonly IDiagnosisService _service;
+        private readonly ILogger _logger;
 
-        public DiagnosisController(IDiagnosisService service)
+        public DiagnosisController(IDiagnosisService service, ILogger<DiagnosisController> logger)
         {
             _service = service;
+            _logger = logger;
         }
 
         [HttpPost]
@@ -35,6 +38,7 @@ namespace PetClinic.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 return StatusCode(500, ex);
             }
 
@@ -51,7 +55,7 @@ namespace PetClinic.Controllers
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex.Message);
                 return StatusCode(500, ex);
             }
         }
