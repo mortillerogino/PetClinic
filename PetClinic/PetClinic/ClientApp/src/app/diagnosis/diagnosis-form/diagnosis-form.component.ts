@@ -20,6 +20,7 @@ export class DiagnosisFormComponent implements OnInit {
       (res: any) => {
         this.toastr.success("Diagnosis Successfully Posted", "Saved");
         this.service.formModel.reset();
+        this.service.populateForm();
         this.service.populateDiagnoses();
       },
       err => {

@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class DiagnosisService {
 
   patientId: string;
+  patientName: string;
   diagnoses: string[];
 
   formModel = this.fb.group({
@@ -29,6 +30,11 @@ export class DiagnosisService {
 
   getDiagnoses() {
     return this.http.get(this.baseUrl + 'api/Diagnosis/' + this.patientId);
+  }
+
+  populateForm() {
+    this.formModel.get('PatientId').setValue(this.patientId);
+    this.formModel.get('PatientName').setValue(this.patientName);
   }
 
   populateDiagnoses() {
