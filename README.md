@@ -13,6 +13,7 @@ Combined application of most Milestone 2 Training Concepts. Features a generic p
 ## Fundamentals
 - Application Startup
 - Dependency Injection
+- Middleware
 - Routing
 - Repository Pattern with Identity/Claims
 ## Client Side Development
