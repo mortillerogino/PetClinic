@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class DiagnosisService {
 
   patientId: string;
+  diagnoses: [];
 
   formModel = this.fb.group({
     PatientName: [{value: "", disabled: true}],
@@ -28,5 +29,17 @@ export class DiagnosisService {
 
   getDiagnoses() {
     return this.http.get(this.baseUrl + 'api/Diagnosis/' + this.patientId);
+  }
+
+  populateDiagnoses() {
+    this.getDiagnoses().subscribe(
+      (res: any) => {
+        this.diagnoses = res;
+        console.log(this.diagnoses);
+      },
+      err => {
+        console.log(err);
+      }
+    )
   }
 }

@@ -19,7 +19,8 @@ export class DiagnosisFormComponent implements OnInit {
     this.service.postDiagnosis().subscribe(
       (res: any) => {
         this.toastr.success("Diagnosis Successfully Posted", "Saved");
-        this.router.navigateByUrl('/patient');
+        this.service.formModel.reset();
+        this.service.populateDiagnoses();
       },
       err => {
         this.toastr.error(err.message, "Service Unavailable");

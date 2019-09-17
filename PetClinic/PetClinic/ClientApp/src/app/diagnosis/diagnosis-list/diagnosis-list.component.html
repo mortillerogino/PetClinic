@@ -1,8 +1,10 @@
 <div class="container">
-  <ul class="list-group">
-    <li class="list-group-item" *ngFor="let d of this.diagnoses">
+  <h1>Diagnoses</h1>
+  <ul class="list-group" *ngIf="this.service.diagnoses">
+    <li class="list-group-item" *ngFor="let d of this.service.diagnoses">
       <span class="font-weight-bold">{{d.date | date: 'MMM dd, yyyy'}}</span><br />
       <span class="font-italic text-break">{{d.notes}}</span>
     </li>
   </ul>
+  <label *ngIf="this.service.diagnoses.length === 0">No Diagnoses</label>
 </div>
