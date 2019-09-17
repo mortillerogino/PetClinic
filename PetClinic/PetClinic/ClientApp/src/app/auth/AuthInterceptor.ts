@@ -3,14 +3,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { UserService } from '../shared/user.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private service: UserService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (localStorage.getItem('token') != null) {
+    let tokenValue = localStorage.getItem('token');
+    if (tokenValue != null) {
       const clonedReq = req.clone({
         headers: req.headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'))
       });
@@ -18,7 +20,11 @@ export class AuthInterceptor implements HttpInterceptor {
         tap(
           succ => { },
           err => {
-            if (err.status === 401) {
+            if (tokenValue != null && err.status === 401) {
+              this.service.logout();
+              this.router.navigateByUrl('expired');
+            }
+            else if (err.status === 401) {
               this.router.navigateByUrl('unauthorized');
             }
             else if (err.status === 403) {

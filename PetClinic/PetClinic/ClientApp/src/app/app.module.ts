@@ -28,6 +28,7 @@ import { DiagnosisComponent } from './diagnosis/diagnosis.component';
 import { DiagnosisListComponent } from './diagnosis/diagnosis-list/diagnosis-list.component';
 import { DiagnosisFormComponent } from './diagnosis/diagnosis-form/diagnosis-form.component';
 import { DiagnosisService } from './shared/diagnosis.service';
+import { ExpiredComponent } from './expired/expired.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { DiagnosisService } from './shared/diagnosis.service';
     NotfoundComponent,
     DiagnosisComponent,
     DiagnosisListComponent,
-    DiagnosisFormComponent
+    DiagnosisFormComponent,
+    ExpiredComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -72,6 +74,7 @@ import { DiagnosisService } from './shared/diagnosis.service';
         ]
       },
       { path: 'forbidden', component: ForbiddenComponent },
+      { path: 'expired', component: ExpiredComponent },
       { path: 'unauthorized', component: UnauthorizedComponent },
       { path: '**', component: NotfoundComponent },
       

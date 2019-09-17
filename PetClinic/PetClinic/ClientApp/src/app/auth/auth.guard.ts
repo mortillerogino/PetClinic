@@ -13,7 +13,9 @@ export class AuthGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (localStorage.getItem('token') != null) {
+    let tokenExists = localStorage.getItem('token') != null;
+    if (tokenExists) {
+
       this.userService.loggedIn = true;
       this.userService.getPayload();
       let roles = next.data['permittedRoles'] as Array<string>;
