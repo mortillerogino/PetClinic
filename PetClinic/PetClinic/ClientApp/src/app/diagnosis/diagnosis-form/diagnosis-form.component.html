@@ -15,7 +15,6 @@
           <label>Diagnosis Notes</label>
           <textarea class="form-control" formControlName="Notes"></textarea>
           <label class="text-danger" *ngIf="service.formModel.get('Notes').touched && service.formModel.get('Notes').errors?.required">This field is mandatory.</label>
-          <!--<label class="text-danger" *ngIf="service.formModel.get('Notes').touched && service.formModel.get('Notes').errors?.minLength">Minimum of 4 characters required.</label>-->
         </div>
         <div class="form-group">
           <button type="submit" class="btn btn-primary btn-lg btn-block" [disabled]="!service.formModel.valid">SUBMIT DIAGNOSIS</button>

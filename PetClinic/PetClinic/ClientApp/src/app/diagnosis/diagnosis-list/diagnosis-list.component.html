@@ -4,7 +4,8 @@
     <li class="list-group-item" *ngFor="let d of this.service.diagnoses">
       <span class="font-weight-bold">{{d.date | date: 'MMM dd, yyyy'}}</span><br />
       <span class="font-italic text-break">{{d.notes}}</span>
+      <span class="float-right">{{d.veterinarianName}}</span>
     </li>
   </ul>
-  <label *ngIf="this.service.diagnoses.length === 0">No Diagnoses</label>
+  <label *ngIf="this.service.diagnoses == null || this.service.diagnoses.length === 0">No Diagnoses</label>
 </div>

@@ -37,9 +37,27 @@ namespace PetClinic.Data.Services
             return newDiag;
         }
 
-        public async Task<IEnumerable<Diagnosis>> GetAsync(Guid patientId)
+        public async Task<IEnumerable<DiagnosisDto>> GetAsync(Guid patientId)
         {
-            return await _unitOfWork.DiagnosisRepository.GetAsync(d => d.PatientId == patientId);
+            var diagnoses = await _unitOfWork.DiagnosisRepository.GetAsync(d => d.PatientId == patientId, null, d => d.Veterinarian);
+            var retVal = new List<DiagnosisDto>();
+
+            if (diagnoses.Count == 0)
+            {
+                return retVal;
+            }
+
+            foreach (var item in diagnoses)
+            {
+                retVal.Add(new DiagnosisDto
+                {
+                    Notes = item.Notes,
+                    Date = item.Date,
+                    VeterinarianName = item.Veterinarian.Name
+                });
+            }
+
+            return retVal;
         }
 
 

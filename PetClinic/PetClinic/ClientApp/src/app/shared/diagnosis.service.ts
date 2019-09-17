@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class DiagnosisService {
 
   patientId: string;
-  diagnoses: [];
+  diagnoses: string[];
 
   formModel = this.fb.group({
     PatientName: [{value: "", disabled: true}],
@@ -35,7 +35,6 @@ export class DiagnosisService {
     this.getDiagnoses().subscribe(
       (res: any) => {
         this.diagnoses = res;
-        console.log(this.diagnoses);
       },
       err => {
         console.log(err);
