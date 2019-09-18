@@ -51,7 +51,7 @@ export class PatientComponent implements OnInit {
         this.lastSort = sort;
       },
         err => {
-          console.error(err)
+          this.toastr.error(err.error.Message, "Cannot get Patients")
         });
   }
 
@@ -124,7 +124,7 @@ export class PatientComponent implements OnInit {
           this.toastr.success("Patient " + res.name + ' Deleted', 'Process Successful.');
         },
         err => {
-          this.toastr.error(err, "Process Failed.");
+          this.toastr.error(err.error.Message, "Process Failed.");
         }
       );
     }

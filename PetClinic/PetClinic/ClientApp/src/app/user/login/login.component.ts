@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('/home');
       },
       err => {
-        this.toastr.error(err.error.message, "Login Error");
+        this.toastr.error(err.error.Message, "Login Error");
       }
       
     );

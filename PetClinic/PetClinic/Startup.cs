@@ -17,6 +17,7 @@ using PetClinic.Data.Repositories;
 using PetClinic.Data.Repositories.EntityFramework;
 using PetClinic.Data.Services;
 using PetClinic.Data.Services.Interfaces;
+using PetClinic.Extensions;
 using PetClinic.Models;
 using System;
 using System.Text;
@@ -114,6 +115,8 @@ namespace PetClinic
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.ConfigureExceptionHanderMiddleware();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

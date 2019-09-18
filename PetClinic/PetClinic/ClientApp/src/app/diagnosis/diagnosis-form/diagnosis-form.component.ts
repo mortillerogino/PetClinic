@@ -24,7 +24,7 @@ export class DiagnosisFormComponent implements OnInit {
         this.service.populateDiagnoses();
       },
       err => {
-        this.toastr.error(err.message, "Service Unavailable");
+        this.toastr.error(err.error.Message, "Service Unavailable");
       }
     )
   }

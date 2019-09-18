@@ -29,126 +29,86 @@ namespace PetClinic.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(string searchString = null, string sortOrder = null, int pageIndex = 1, int pageSize = 10)
         {
-            try
+            var patients = await _patientService.GetPaginatedListAsync(searchString, sortOrder, pageIndex, pageSize, a => a.User);
+            if (patients == null)
             {
-                var patients = await _patientService.GetPaginatedListAsync(searchString, sortOrder, pageIndex, pageSize, a => a.User);
-                if (patients == null)
-                {
-                    return NotFound();
-                }
-
-                var patientDtoList = new List<PatientDto>();
-
-                foreach (Patient p in patients)
-                {
-                    patientDtoList.Add(new PatientDto
-                    {
-                        Id = p.Id,
-                        Name = p.Name,
-                        DateAdded = p.DateAdded,
-                        UserName = p.User.UserName
-                    });
-                }
-
-                var paginatedPatientsDto = new PaginatedPatientsDto
-                {
-                    HasPreviousPage = patients.HasPreviousPage,
-                    HasNextPage = patients.HasNextPage,
-                    Patients = patientDtoList
-                };
-
-                return Ok(paginatedPatientsDto);
+                return NotFound();
             }
-            catch (Exception ex)
+
+            var patientDtoList = new List<PatientDto>();
+
+            foreach (Patient p in patients)
             {
-                _logger.LogError(ex.Message);
-                return StatusCode(500, ex);
+                patientDtoList.Add(new PatientDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    DateAdded = p.DateAdded,
+                    UserName = p.User.UserName
+                });
             }
-            
+
+            var paginatedPatientsDto = new PaginatedPatientsDto
+            {
+                HasPreviousPage = patients.HasPreviousPage,
+                HasNextPage = patients.HasNextPage,
+                Patients = patientDtoList
+            };
+
+            return Ok(paginatedPatientsDto);
+
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            try
-            {
-                var patient = await _patientService.GetByIdAsync(id);
+            var patient = await _patientService.GetByIdAsync(id);
 
-                if (patient == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(patient);
-            }
-            catch (Exception ex)
+            if (patient == null)
             {
-                _logger.LogError(ex.Message);
-                return StatusCode(500, ex);
+                return NotFound();
             }
-            
+
+            return Ok(patient);
+
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(PatientDto patientDTO)
         {
-            try
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            if (userId == null)
             {
-                var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-                if (userId == null)
-                {
-                    return BadRequest();
-                }
-
-                var patient = await _patientService.AddAsync(patientDTO, userId);
-
-                return CreatedAtAction(nameof(Get), new { name = patient.Name });
+                return BadRequest();
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return StatusCode(500, ex);
-            }
+
+            var patient = await _patientService.AddAsync(patientDTO, userId);
+
+            return CreatedAtAction(nameof(Get), new { name = patient.Name });
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            try
+            var patient = await _patientService.RemoveAsync(id);
+            if (patient == null)
             {
-                var patient = await _patientService.RemoveAsync(id);
-                if (patient == null)
-                {
-                    return NotFound();
-                }
+                return NotFound();
+            }
 
-                return Ok(patient);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return StatusCode(500, ex);
-            }
+            return Ok(patient);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, PatientDto patientDto)
         {
-            try
+            var patient = await _patientService.UpdateAsync(id, patientDto);
+            if (patient == null)
             {
-                var patient = await _patientService.UpdateAsync(id, patientDto);
-                if (patient == null)
-                {
-                    return NotFound();
-                }
+                return NotFound();
+            }
 
-                return Ok(patient);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return StatusCode(500, ex);
-            }
+            return Ok(patient);
         }
 
 

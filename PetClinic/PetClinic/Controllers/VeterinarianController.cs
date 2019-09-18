@@ -29,21 +29,15 @@ namespace PetClinic.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            try
+            IEnumerable<VeterinarianDto> vets = await _vetService.GetAsDtoAsync();
+            if (vets == null)
             {
-                IEnumerable<VeterinarianDto> vets = await _vetService.GetAsDtoAsync();
-                if (vets == null)
-                {
-                    return NotFound();
-                }
+                return NotFound();
+            }
 
-                return Ok(vets);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return StatusCode(500, ex);
-            }
+            
+
+            return Ok(vets);
         }
     }
 }

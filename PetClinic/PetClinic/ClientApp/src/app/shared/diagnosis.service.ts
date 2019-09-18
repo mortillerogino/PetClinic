@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Injectable({
@@ -18,7 +19,7 @@ export class DiagnosisService {
     Notes: ['', Validators.required]
   })
 
-  constructor(private http: HttpClient, private fb: FormBuilder, @Inject('BASE_URL') private baseUrl: string) { }
+  constructor(private http: HttpClient, private fb: FormBuilder, @Inject('BASE_URL') private baseUrl: string, private toastr: ToastrService) { }
 
   postDiagnosis() {
     var body = {
@@ -43,7 +44,7 @@ export class DiagnosisService {
         this.diagnoses = res;
       },
       err => {
-        console.log(err);
+        this.toastr.error(err.error.Message, "Cannot get Diagnoses");
       }
     )
   }

@@ -22,7 +22,7 @@ export class AddComponent implements OnInit {
         this.toastr.success("Patient " + res.name + ' Submitted', 'Process Successful.');
       },
       err => {
-        this.toastr.error(err, "Process Failed.");
+        this.toastr.error(err.error.Message, "Process Failed.");
       })
   }
 }

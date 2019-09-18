@@ -30,17 +30,9 @@ namespace PetClinic.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(DiagnosisDto dto)
         {
-            try
-            {
-                var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
-                var newDiag = await _service.AddAsync(dto, userId);
-                return Ok(newDiag);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return StatusCode(500, ex);
-            }
+            var userId = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var newDiag = await _service.AddAsync(dto, userId);
+            return Ok(newDiag);
 
         }
 
@@ -48,16 +40,8 @@ namespace PetClinic.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Get(Guid id)
         {
-            try
-            {
-                var diagnoses = await _service.GetAsync(id);
-                return Ok(diagnoses);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return StatusCode(500, ex);
-            }
+            var diagnoses = await _service.GetAsync(id);
+            return Ok(diagnoses);
         }
     }
 }

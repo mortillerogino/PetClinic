@@ -4,6 +4,7 @@ import { Patient } from './models/patient';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from './user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,8 @@ export class PatientService {
     @Inject('BASE_URL') private baseUrl: string,
     private fb: FormBuilder,
     private router: Router,
-    private userService: UserService) { }
+    private userService: UserService,
+    private toastr: ToastrService) { }
 
   newPatientForm = this.fb.group({
     Name: ['', Validators.required],
@@ -42,7 +44,7 @@ export class PatientService {
         this.router.navigate(['patient/details']);
       },
         err => {
-          console.error(err)
+          this.toastr.error(err.error.Message, "Cannot get Patient")
         });;
   }
 

@@ -25,7 +25,7 @@ export class EditComponent implements OnInit {
         this.toastr.success("Patient " + res.name + ' Updated', 'Process Successful.');
       },
       err => {
-        this.toastr.error(err, "Process Failed.");
+        this.toastr.error(err.error.Message, "Process Failed.");
       }
     )
   }

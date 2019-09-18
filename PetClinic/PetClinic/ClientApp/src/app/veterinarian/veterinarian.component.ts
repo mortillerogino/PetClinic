@@ -19,7 +19,7 @@ export class VeterinarianComponent implements OnInit {
         this.veterinarians = res;
       },
       err => {
-        this.toastr.error(err, "Cannot Get Veterinarians");
+        this.toastr.error(err.error.Message, "Cannot Get Veterinarians");
       }
     )
   }
