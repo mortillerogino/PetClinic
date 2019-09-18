@@ -41,35 +41,14 @@ namespace PetClinic
                 logging.AddConsole();
             });
 
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
-
             services.AddDbContextPool<PetClinicContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("PetClinicDb"));
             });
 
-            services.AddDefaultIdentity<ApplicationUser>();
-            
-
-            services.Configure<IdentityOptions>(options =>
-            {
-                options.Password.RequireDigit = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 4;
-            });
-
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IPatientService, PatientService>();
-            services.AddScoped<ISpecializationService, SpecializationService>();
-            services.AddScoped<IVeterinarianService, VeterinarianService>();
-            services.AddScoped<IFieldService, FieldService>();
-            services.AddScoped<IDiagnosisService, DiagnosisService>();
-
-            services.AddScoped<IUserStore<ApplicationUser>, ApplicationUserStore>();
-            services.AddScoped<ApplicationUserStore>();
+            services.AddClinicServices();
+            services.ConfigureAppSettings(Configuration);
+            services.AddClinicAuthenticationServices();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -78,28 +57,6 @@ namespace PetClinic
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-
-            var appSettings = appSettingsSection.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-                .AddJwtBearer(x =>
-                {
-                    x.RequireHttpsMetadata = true;
-                    x.SaveToken = false;
-                    x.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        ClockSkew = TimeSpan.Zero
-                    };
-                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
