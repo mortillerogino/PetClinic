@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using PetClinic.Core.DTO;
 using PetClinic.Core.Models.Identity;
 using PetClinic.Models;
+using PetClinic.Security;
 
 namespace PetClinic.Controllers
 {
@@ -46,18 +47,8 @@ namespace PetClinic.Controllers
             {
                 if (await _userManager.CheckPasswordAsync(user, dto.Password))
                 {
-                    var claims = await _userManager.GetClaimsAsync(user);
-
-                    var tokenDescriptor = new SecurityTokenDescriptor
-                    {
-                        Subject = new ClaimsIdentity(claims),
-                        Expires = DateTime.UtcNow.AddMinutes(30),
-                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_appSettings.Value.Secret)), SecurityAlgorithms.HmacSha256Signature)
-                    };
-
-                    var tokenHandler = new JwtSecurityTokenHandler();
-                    var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-                    var token = tokenHandler.WriteToken(securityToken);
+                    var userTokenHandler = new UserTokenHandler(user, _userManager, _appSettings);
+                    var token = await userTokenHandler.CreateUserToken();
                     return Ok(new { token });
                 }
                 else
