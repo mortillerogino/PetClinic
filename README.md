@@ -9,7 +9,7 @@ Combined application of most Milestone 2 Training Concepts. Features a generic p
 - Complex Data Model
 - Reading related Data
 - Updating related Data
-- Handling Concurrency Conflicts
+- Identities with claims based authorization
 ## Fundamentals
 - Application Startup
 - Dependency Injection
