@@ -13,13 +13,13 @@ Combined application of most Milestone 2 Training Concepts. Features a generic p
 ## Fundamentals
 - Application Startup
 - Dependency Injection
-- Middleware
+- Middleware (using custom middleware)
 - Static Files
 - Logging
 - Routing
 - Repository Pattern with Identity/Claims
 ## Client Side Development
-- Bower managed client packages
+- npmjs managed client packages (ngx-toastr)
 - Bootstrap
 - Css
 - Bundled and Minified
