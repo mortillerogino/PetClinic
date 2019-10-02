@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using PetClinic.Core.DTO;
 using PetClinic.Core.Models;
 using PetClinic.Data.Repositories;
@@ -12,10 +13,12 @@ namespace PetClinic.Data.Services
     public class VeterinarianService : IVeterinarianService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public VeterinarianService(IUnitOfWork unitOfWork)
+        public VeterinarianService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task<Veterinarian> AddAsync(Veterinarian vet)
@@ -55,12 +58,12 @@ namespace PetClinic.Data.Services
 
         private VeterinarianDto ConvertToDto(Veterinarian veterinarian)
         {
-            var dto = new VeterinarianDto
-            {
-                Id = veterinarian.Id,
-                Name = veterinarian.Name
-            };
-
+            //var dto = new VeterinarianDto
+            //{
+            //    Id = veterinarian.Id,
+            //    Name = veterinarian.Name
+            //};
+            var dto = _mapper.Map<VeterinarianDto>(veterinarian);
             var specs = new List<string>();
 
             foreach (Specialization spec in veterinarian.Specializations)
