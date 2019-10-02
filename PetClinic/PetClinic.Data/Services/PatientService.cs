@@ -23,6 +23,7 @@ namespace PetClinic.Data.Services
 
         public async Task<Patient> AddAsync(PatientDto patientDto, string userId)
         {
+            // TO DO: convert dto to patient
             var newPatient = new Patient
             {
                 Name = patientDto.Name,
@@ -48,6 +49,42 @@ namespace PetClinic.Data.Services
             IQueryable<Patient> patients = _unitOfWork.PatientsRepository.Query(searchFunction, sortFunction, includes);
 
             return await EfPaginatedList<Patient>.CreateAsync(patients, pageIndex, pageSize);
+        }
+
+        public async Task<PaginatedPatientsDto> GetPaginatedListDtoAsync(string searchString = null,
+            string sortOrder = null,
+            int pageIndex = 1,
+            int pageSize = 10)
+        {
+            var patients = await GetPaginatedListAsync(searchString, sortOrder, pageIndex, pageSize, a => a.User);
+            if (patients == null)
+            {
+                return null;
+            }
+
+            var patientDtoList = new List<PatientDto>();
+
+            foreach (Patient p in patients)
+            {
+                // TO DO: convert patient to dto
+                patientDtoList.Add(new PatientDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    DateAdded = p.DateAdded,
+                    UserName = p.User.UserName
+                });
+            }
+
+            // TO DO: convert paginatedList to Dto
+            var paginatedPatientsDto = new PaginatedPatientsDto
+            {
+                HasPreviousPage = patients.HasPreviousPage,
+                HasNextPage = patients.HasNextPage,
+                Patients = patientDtoList
+            };
+
+            return paginatedPatientsDto;
         }
 
         private static Expression<Func<Patient, bool>> GetSearchFunction(string searchString = null)

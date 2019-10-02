@@ -39,6 +39,7 @@ namespace PetClinic.Data.Services
             var vets = await GetAsync();
             List<VeterinarianDto> vetDtos = new List<VeterinarianDto>();
 
+            // TO DO: Map Veterinarian to dto
             foreach (Veterinarian v in vets)
             {
                 vetDtos.Add(ConvertToDto(v));

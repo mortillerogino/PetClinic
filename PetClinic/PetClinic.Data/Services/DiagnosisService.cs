@@ -23,6 +23,7 @@ namespace PetClinic.Data.Services
         {
             var vetUser = await _unitOfWork.UserRepository.GetByIdAsync(vetUserId);
 
+            // TO DO: convert with automapper dto to diagnosis
             var newDiag = new Diagnosis
             {
                 Notes = dto.Notes,
@@ -49,6 +50,7 @@ namespace PetClinic.Data.Services
 
             foreach (var item in diagnoses)
             {
+                // TO DO: convert with automapper, diagnosis to dto
                 retVal.Add(new DiagnosisDto
                 {
                     Notes = item.Notes,

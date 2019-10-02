@@ -29,34 +29,9 @@ namespace PetClinic.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(string searchString = null, string sortOrder = null, int pageIndex = 1, int pageSize = 10)
         {
-            var patients = await _patientService.GetPaginatedListAsync(searchString, sortOrder, pageIndex, pageSize, a => a.User);
-            if (patients == null)
-            {
-                return NotFound();
-            }
+            var patients = await _patientService.GetPaginatedListDtoAsync(searchString, sortOrder, pageIndex, pageSize);
 
-            var patientDtoList = new List<PatientDto>();
-
-            foreach (Patient p in patients)
-            {
-                patientDtoList.Add(new PatientDto
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    DateAdded = p.DateAdded,
-                    UserName = p.User.UserName
-                });
-            }
-
-            var paginatedPatientsDto = new PaginatedPatientsDto
-            {
-                HasPreviousPage = patients.HasPreviousPage,
-                HasNextPage = patients.HasNextPage,
-                Patients = patientDtoList
-            };
-
-            return Ok(paginatedPatientsDto);
-
+            return Ok(patients);
         }
 
         [HttpGet("{id}")]
