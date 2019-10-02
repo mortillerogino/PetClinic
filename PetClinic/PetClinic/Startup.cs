@@ -44,6 +44,14 @@ namespace PetClinic
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            var mapperConfig = new AutoMapper.MapperConfiguration(m =>
+            {
+                m.AddProfile(new MappingProfile());
+            });
+
+            var mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

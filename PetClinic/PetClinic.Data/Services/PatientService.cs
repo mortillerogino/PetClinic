@@ -1,4 +1,5 @@
-﻿using PetClinic.Core.DTO;
+﻿using AutoMapper;
+using PetClinic.Core.DTO;
 using PetClinic.Core.Models;
 using PetClinic.Data.Repositories;
 using PetClinic.Data.Services.Interfaces;
@@ -15,21 +16,18 @@ namespace PetClinic.Data.Services
     public class PatientService : IPatientService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public PatientService(IUnitOfWork unitOfWork)
+        public PatientService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task<Patient> AddAsync(PatientDto patientDto, string userId)
         {
-            // TO DO: convert dto to patient
-            var newPatient = new Patient
-            {
-                Name = patientDto.Name,
-                DateAdded = DateTime.UtcNow,
-                ApplicationUserID = userId
-            };
+            var newPatient = _mapper.Map<Patient>(patientDto);
+            newPatient.ApplicationUserID = userId;
 
             await _unitOfWork.PatientsRepository.InsertAsync(newPatient);
             await _unitOfWork.CommitAsync();
@@ -66,23 +64,11 @@ namespace PetClinic.Data.Services
 
             foreach (Patient p in patients)
             {
-                // TO DO: convert patient to dto
-                patientDtoList.Add(new PatientDto
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    DateAdded = p.DateAdded,
-                    UserName = p.User.UserName
-                });
+                patientDtoList.Add(_mapper.Map<PatientDto>(p));
             }
 
-            // TO DO: convert paginatedList to Dto
-            var paginatedPatientsDto = new PaginatedPatientsDto
-            {
-                HasPreviousPage = patients.HasPreviousPage,
-                HasNextPage = patients.HasNextPage,
-                Patients = patientDtoList
-            };
+            var paginatedPatientsDto = _mapper.Map<PaginatedPatientsDto>(patients);
+            paginatedPatientsDto.Patients = patientDtoList;
 
             return paginatedPatientsDto;
         }
