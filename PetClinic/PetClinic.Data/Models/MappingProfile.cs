@@ -21,6 +21,12 @@ namespace PetClinic.Data.Models
 
             CreateMap<PaginatedList<Patient>, PaginatedPatientsDto>()
                 .ReverseMap();
+
+            CreateMap<Diagnosis, DiagnosisDto>()
+                .ForMember(dest => dest.VeterinarianName, opt => opt.MapFrom(src => src.Veterinarian.Name));
+
+            CreateMap<DiagnosisDto, Diagnosis>()
+                .ForMember(dest => dest.Veterinarian, act => act.Ignore());
         }
     }
 }
